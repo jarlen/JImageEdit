@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="common_widget_transform">#00000000</color>
+    /*错误失败警告提示字体色*/
+    <color name="common_widget_text_color_C2_4">#FFD9414D</color>
+    /*确认成功字体色*/
+    <color name="common_widget_text_color_C2_3">#FF66CC72</color>
+    /*深色Toolbar标题字体色*/
+    <color name="common_widget_toolbar_title_text_color_C3_1">#FFFFFFFF</color>
+    /*Toolbar标题字体色*/
+    <color name="common_widget_toolbar_title_text_color_C3_2">#FF333333</color>
+    /*正文深灰*/
+    <color name="common_widget_text_colorC3_3">#FF333333</color>
+    /未获得焦点浅灰*/
+    <color name="common_widget_text_colorC3_2">#8C666666</color>
+    /*正文中灰*/
+    <color name="common_widget_text_colorC3_4">#FF999999</color>
+    /*正文浅灰*/
+    <color name="common_widget_text_colorC3_5">#FF666666</color>
+    /*正文最浅灰*/
+    <color name="common_widget_text_colorC3_6">#FFCCCCCC</color>
+    /*闪屏页默认背景色*/
+    <color name="common_widget_launcher_bg_color">#EEEEEE</color>
+    <color name="common_widget_item_selected_color">#FFE8E8E8</color>
+    <color name="common_widget_item_unselected_color">#FFFFFF</color>
+    <color name="common_widget_toast_bg_color">#90000000</color>
+    /*Activity界面背景色*/
+    <color name="common_widget_activity_default_bg_color_C2_1">#FFF5F5F5</color>
+    /*Title 按钮颜色*/
+    <color name="common_widget_toolbar_button_color_C3_2">#333333</color>
+    <color name="common_widget_toolbar_divider_color">#cccccc</color>
+
+    /*普通toolbar背景色*/
+    <color name="common_widget_toolbar_normal_bg_color">#FFFFFFFF</color>
+    /*普通界面toolbar字体色*/
+    <color name="common_widget_toolbar_text_color">#FFFFFFFF</color>
+
+    <!--新版OA通用样式-色值-->
+    <color name="common_widget_cor1">#333333</color>
+    <color name="common_widget_cor2">#666666</color>
+    <color name="common_widget_cor3">#999999</color>
+    <color name="common_widget_cor4">#cccccc</color>
+    <color name="common_widget_cor5">#e5e5e5</color>
+    <color name="common_widget_cor6">#00b1ff</color>
+    <color name="common_widget_cor7">#ffffff</color>
+    <color name="common_widget_cor8">#d9414e</color>
+    <color name="common_widget_cor9">#f0f0f0</color>
+    <color name="common_widget_transparent">#00000000</color>
+    <color name="common_widget_color10">#009fe5</color>
+
+    <color name="common_widget_base_black_95">#F3000000</color>
+    <color name="common_widget_base_black_65">#A6000000</color>
+    <color name="common_widget_base_black_50">#80000000</color>
+    <color name="common_widget_base_black_30">#4D000000</color>
+    <color name="common_widget_base_black_40">#CD000000</color>
+    <color name="common_widget_base_white_100">#FFFFFFFF</color>
+    <color name="common_widget_base_white_95">#F3FFFFFF</color>
+    <color name="common_widget_base_white_65">#A6FFFFFF</color>
+    <color name="common_widget_base_white_50">#80FFFFFF</color>
+    <color name="common_widget_base_white_30">#4DFFFFFF</color>
+
+    <color name="common_divider_color" tools:ignore="ResourceName">#E6E6E6</color>
+
+    <color name="common_widget_msg_hint_bg">#ED5A48</color>
+
+    /*主题色*/
+    <color name="skinable_theme_color_C1_1" tools:ignore="ResourceName">#FF599BF8</color>
+
+    /*导航栏选中颜色*/
+    <color name="skinable_sliding_text_color_selected" tools:ignore="ResourceName">#FF00B1FF</color>
+    /*导航栏未选中颜色*/
+    <color name="skinable_sliding_text_color_unselected" tools:ignore="ResourceName">#FF333333
+    </color>
+    /*导航栏指示器颜色*/
+    <color name="skinable_indicator_color" tools:ignore="ResourceName">#FF00B1FF</color>
+    /*导航栏背景颜色*/
+    <color name="skinable_background_color" tools:ignore="ResourceName">#FFFFFF</color>
+
+    /*主界面Toolbar标题字体色*/
+    <color name="skinable_home_toolbar_title_text_color" tools:ignore="ResourceName">#FF333333
+    </color>
+
+    /*主界面导航栏底部文字选中颜色*/
+    <color name="skinable_main_tab_text_color_selected" tools:ignore="ResourceName">#FF599BF8
+    </color>
+
+
+    <color name="skinable_main_tab_text_color_normal" tools:ignore="ResourceName">#FFBBBBBB</color>
+    <color name="materialcolorpicker__white">#ffffff</color>
+    <color name="materialcolorpicker__red">#f44336</color>
+    <color name="materialcolorpicker__green">#4caf50</color>
+    <color name="materialcolorpicker__blue">#2196f3</color>
+    <color name="materialcolorpicker__grey">#b3b3b3</color>
+    <color name="materialcolorpicker__lightgrey">#d9d9d9</color>
+    <color name="materialcolorpicker__dribble">#ea4c89</color>
+    <color name="materialcolorpicker__dribbledark">#c32361</color>
+    <color name="materialcolorpicker__black">#000000</color>
+    <color name="materialcolorpicker__dialogcolor">#009688</color>
+
+</resources>
