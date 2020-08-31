@@ -13,5 +13,5 @@ public class Constant {
     public static final String CONTENT_URL = "content://downloads/my_downloads";
 
     public static final String Camera_Customer_Path = Environment
-            .getExternalStorageDirectory() + "/星座胶卷/";
+            .getExternalStorageDirectory() + "/JEditImage/";
 }

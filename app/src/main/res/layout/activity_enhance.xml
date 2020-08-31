@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".enhance.EnhanceActivity">
+
+    <include
+        android:id="@+id/layout_toolbar"
+        layout="@layout/layout_toolbar" />
+
+    <cn.jarlen.imgedit.filter.WMFilterOperateView
+        android:id="@+id/wm_filter_operateview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/image_edit_menu_ll"
+        android:layout_below="@+id/layout_toolbar"
+        android:background="#414358" />
+
+    <FrameLayout
+        android:id="@+id/image_edit_menu_ll"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#414358"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/layout_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/adjust_brightness"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:background="#2C3241">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableTop="@drawable/camera_adjust_brightness_btn"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="亮度"
+                    android:textColor="#66688A"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/adjust_color"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="#2C3241">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableTop="@drawable/camera_adjust_colortemperature_btn"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="色温"
+                    android:textColor="#66688A"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/adjustBar_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#2A2D3E"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/adjustBar_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textColor="#BA89EB"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/adjustBar_reset_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/adjustBar_tv"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:text="复位"
+                android:textColor="#BA89EB"
+                android:textSize="14sp" />
+
+            <cn.jarlen.imgedit.enhance.JarlenView
+                android:id="@+id/adjustBar"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:background="#2A2D3E" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

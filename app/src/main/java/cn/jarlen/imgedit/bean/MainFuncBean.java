@@ -14,6 +14,10 @@ public class MainFuncBean {
     public static final int MAIN_FUNC_TYPE_FRAME = 5;
     public static final int MAIN_FUNC_TYPE_ARROW = 6;
     public static final int MAIN_FUNC_TYPE_RECT = 7;
+    public static final int MAIN_FUNC_TYPE_NINE = 8;
+    public static final int MAIN_FUNC_TYPE_COMPRESS = 9;
+    public static final int MAIN_FUNC_TYPE_STICKER = 10;
+    public static final int MAIN_FUNC_TYPE_ENHANCE = 11;
 
     private String funcName;
     private int funcType;

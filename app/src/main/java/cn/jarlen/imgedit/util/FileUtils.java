@@ -17,6 +17,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,8 +25,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import cn.jarlen.imgedit.ImageEditApplication;
 
 public class FileUtils {
 
@@ -34,6 +38,75 @@ public class FileUtils {
 
     public static String DCIMCamera_PATH = Environment
             .getExternalStorageDirectory() + "/DCIM/Camera/";
+
+    /**
+     * 应用缓存主路径标识
+     */
+    public static final String CACHE_FILE_ROOT_PATH = "JImgEdit";
+
+    /**
+     * 缓存主路径
+     * xdja
+     *
+     * @return
+     */
+    public static String getRootCacheFilePath() {
+        String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            Environment.getExternalStorageDirectory();
+            File externalCacheDir = Environment.getExternalStorageDirectory();
+            if (externalCacheDir != null) {
+                cachePath = externalCacheDir.getPath();
+            }
+        }
+        if (cachePath == null) {
+            cachePath = ImageEditApplication.getApplication().getCacheDir().getPath();
+        }
+        File file = new File(cachePath + File.separator + CACHE_FILE_ROOT_PATH);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        return file.getAbsolutePath();
+    }
+
+    /**
+     * 保存文件
+     *
+     * @param bm       要保存的图片
+     * @param path     保存路径
+     * @param fileName 保存的文件名
+     */
+    public static String saveFile(Bitmap bm, String path, String fileName) {
+        File file = new File(path, fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        BufferedOutputStream bos = null;
+        try {
+            bos = new BufferedOutputStream(
+                    new FileOutputStream(file));
+            bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+            bos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bos != null) {
+                    bos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file.getAbsolutePath();
+    }
 
     /**
      * 检测sdcard是否可用
@@ -536,6 +609,48 @@ public class FileUtils {
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri
                 .getAuthority());
+    }
+
+    // 格式化文件长度
+    public static String formatFromSize(long size) {
+        if (size == 0) {
+            return "0 B";
+        }
+        DecimalFormat df = new DecimalFormat("#.00");
+        String fileSizeString;
+        if (size < 1024) {
+            fileSizeString = df.format((double) size) + " B";
+        } else if (size < 1048576) {
+            fileSizeString = df.format((double) size / 1024) + " KB";
+        } else if (size < 1073741824) {
+            fileSizeString = df.format((double) size / 1048576) + " MB";
+        } else {
+            fileSizeString = df.format((double) size / 1073741824) + " GB";
+        }
+        return fileSizeString;
+    }
+
+    /**
+     * 从Assert文件夹中读取位图数据
+     *
+     * @param fileName
+     * @return
+     */
+    public static Bitmap getImageFromAssetsFile(String fileName) {
+        Bitmap image = null;
+        AssetManager am = ImageEditApplication.getApplication().getResources().getAssets();
+        try {
+            InputStream is = am.open(fileName);
+            image = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    public static String buildAssetPath(String fileName) {
+        return "file:///android_asset/" + fileName;
     }
 
 }

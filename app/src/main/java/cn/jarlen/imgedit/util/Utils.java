@@ -13,10 +13,13 @@ import cn.jarlen.imgedit.ImageEditApplication;
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.arrow.ArrowRectActivity;
 import cn.jarlen.imgedit.bean.MainFuncBean;
+import cn.jarlen.imgedit.compress.CompressActivity;
 import cn.jarlen.imgedit.crop_rotate.CropRotateActivity;
 import cn.jarlen.imgedit.draw.DrawActivity;
 import cn.jarlen.imgedit.frame.PhotoFrameActivity;
 import cn.jarlen.imgedit.mosaic.MosaicActivity;
+import cn.jarlen.imgedit.nine.NineActivity;
+import cn.jarlen.imgedit.sticker.StickerActivity;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -62,6 +65,18 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_RECT:
                 funcName = "框选";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_NINE:
+                funcName = "九宫格";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_COMPRESS:
+                funcName = "压缩";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_STICKER:
+                funcName = "贴纸";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_ENHANCE:
+                funcName = "增强";
                 break;
             default:
                 funcName = "测试";
@@ -115,6 +130,26 @@ public class Utils {
                 funcIntent.putExtra(ArrowRectActivity.RECTANGLE_ABLE, true);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;
+            case MainFuncBean.MAIN_FUNC_TYPE_NINE:
+                funcIntent = new Intent(activity, NineActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_COMPRESS:
+                funcIntent = new Intent(activity, CompressActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_STICKER:
+                funcIntent = new Intent(activity, StickerActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_ENHANCE:
+//                funcIntent = new Intent(activity, EnhanceActivity.class);
+//                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
             default:
                 break;
         }
@@ -148,6 +183,16 @@ public class Utils {
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    public static Observable<Boolean> saveImg2(Bitmap bitmap, final String targetImageName) {
+        return Observable.just(bitmap)
+                .map(new Function<Bitmap, Boolean>() {
+                    @Override
+                    public Boolean apply(Bitmap bitmap) throws Exception {
+                        return FileUtils.saveBitmapToCamera(ImageEditApplication.getApplication(), bitmap, targetImageName);
                     }
                 });
     }

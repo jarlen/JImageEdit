@@ -14,7 +14,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/QMUI.Compat">
+        android:theme="@style/AppTheme">
+        <activity android:name=".enhance.EnhanceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".sticker.StickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".compress.CompressActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,13 +39,14 @@
         <activity
             android:name=".mosaic.MosaicActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".frame.PhotoFrameActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".arrow.ArrowRectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".nine.NineActivity"
             android:screenOrientation="portrait" />
 
         <provider
