@@ -22,18 +22,18 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
-import cn.jarlen.imgedit.filter.base.GPUImage;
-import cn.jarlen.imgedit.filter.base.GPUImageFilter;
-import cn.jarlen.imgedit.filter.base.GPUImageFilterGroup;
-import cn.jarlen.imgedit.filter.base.GPUImageView;
 import cn.jarlen.imgedit.filter.edit.ImageObject;
 import cn.jarlen.imgedit.filter.edit.OperateUtils;
 import cn.jarlen.imgedit.filter.edit.OperateView;
-import cn.jarlen.imgedit.filter.single.GPUImageBrightnessFilter;
-import cn.jarlen.imgedit.filter.single.GPUImageVignetteFilter;
-import cn.jarlen.imgedit.filter.single.GPUImageWhiteBalanceFilter;
+import cn.jarlen.imgedit.filter.mine.GPUImageFilterMineWhiteBalance;
 import cn.jarlen.imgedit.util.FileUtils;
 import cn.jarlen.imgedit.util.ViewUtil;
+import jp.co.cyberagent.android.gpuimage.GPUImage;
+import jp.co.cyberagent.android.gpuimage.GPUImageView;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageBrightnessFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilterGroup;
+//import jp.co.cyberagent.android.gpuimage.filter.GPUImageVignetteFilter;
 
 
 public class WMFilterOperateView extends RelativeLayout {
@@ -65,7 +65,6 @@ public class WMFilterOperateView extends RelativeLayout {
         this.wmPadding = ViewUtil.dipTopx(mContext, 5);
         initView();
         initOperateFilter();
-
     }
 
     private void initView() {
@@ -289,8 +288,8 @@ public class WMFilterOperateView extends RelativeLayout {
     private ArrayList<GPUImageFilter> mFilterList = null;
 
     private GPUImageBrightnessFilter brightnessFilter;
-    private GPUImageWhiteBalanceFilter whiteBalanceFilter;
-    private GPUImageVignetteFilter vignetteFilter;
+    private GPUImageFilterMineWhiteBalance whiteBalanceFilter;
+//    private GPUImageVignetteFilter vignetteFilter;
 
     /* 滤镜类型 */
     private int filterTypeInFilterManager = 0;
@@ -314,13 +313,13 @@ public class WMFilterOperateView extends RelativeLayout {
         brightnessFilter.setBrightness(brightnessValue);
         listTemp.add(brightnessFilter);
 
-        whiteBalanceFilter = new GPUImageWhiteBalanceFilter();
+        whiteBalanceFilter = new GPUImageFilterMineWhiteBalance();
         whiteBalanceFilter.setTemperatureProportion(whiteBalanceValue);
         listTemp.add(whiteBalanceFilter);
 
-        vignetteFilter = new GPUImageVignetteFilter();
-        vignetteFilter.setVignetteStart(vignetteValue);
-        listTemp.add(vignetteFilter);
+//        vignetteFilter = new GPUImageVignetteFilter();
+//        vignetteFilter.setVignetteStart(vignetteValue);
+//        listTemp.add(vignetteFilter);
 
         GPUImageFilterGroup mGroupFilter = new GPUImageFilterGroup(listTemp);
         mFilterOperateView.setFilter(mGroupFilter);
@@ -350,27 +349,29 @@ public class WMFilterOperateView extends RelativeLayout {
         whiteBalanceFilter.setTemperatureProportion(whiteBalanceValue);
         listTemp.add(whiteBalanceFilter);
 
-        vignetteFilter.setVignetteStart(vignetteValue);
-        listTemp.add(vignetteFilter);
+//        vignetteFilter.setVignetteStart(vignetteValue);
+//        listTemp.add(vignetteFilter);
         GPUImageFilterGroup mGroupFilter = new GPUImageFilterGroup(listTemp);
 
         mFilterOperateView.setFilter(mGroupFilter);
     }
 
     public void adjustWhiteBalanceFilter(float factor) {
+        this.whiteBalanceValue = factor;
         whiteBalanceFilter.setTemperatureProportion(factor);
         mFilterOperateView.requestRender();
     }
 
     public void adjustBrightnessFilter(float factor) {
+        this.brightnessValue = factor;
         brightnessFilter.setBrightness(factor);
         mFilterOperateView.requestRender();
     }
 
-    public void adjustVignetteFilter(float factor) {
-        vignetteFilter.setVignetteStart(factor);
-        mFilterOperateView.requestRender();
-    }
+//    public void adjustVignetteFilter(float factor) {
+//        vignetteFilter.setVignetteStart(factor);
+//        mFilterOperateView.requestRender();
+//    }
 
     /**
      * 设置滤镜
@@ -407,69 +408,7 @@ public class WMFilterOperateView extends RelativeLayout {
         return vignetteValue;
     }
 
-    public Bitmap getResultBitmap() {
-        Bitmap filterBitmap = null;
-        try {
-            filterBitmap = mFilterOperateView.captureBitmap(
-                    mBitmapSrc.getWidth(), mBitmapSrc.getHeight());
-            Log.d("===",
-                    "   " + filterBitmap.getWidth() + "   "
-                            + filterBitmap.getHeight());
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setAntiAlias(true);// 去掉边缘锯齿
-        paint.setStrokeWidth(2);// 设置线宽
-
-        // mWMOperateView.save();
-        Bitmap wmBitmap = getBitmapByView(mWMOperateView,
-                mWMOperateView.getWidth(), mWMOperateView.getHeight());
-        Bitmap resultBitmap = Bitmap.createBitmap(mBitmapSrc.getWidth(),
-                mBitmapSrc.getHeight(), Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
-        if (filterBitmap != null) {
-            canvas.drawBitmap(filterBitmap, 0, 0, paint);
-        }
-
-        if (wmBitmap != null) {
-            canvas.drawBitmap(wmBitmap, 0, 0, paint);
-        }
-
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG
-                | Paint.FILTER_BITMAP_FLAG));
-
-        return resultBitmap;
-    }
-
-    private Bitmap getBitmapByView(View view, int width, int height) {
-        int widthSpec = MeasureSpec.makeMeasureSpec(width,
-                MeasureSpec.EXACTLY);
-        int heightSpec = MeasureSpec.makeMeasureSpec(height,
-                MeasureSpec.EXACTLY);
-        view.measure(widthSpec, heightSpec);
-        // view.layout(0, 0, width, height);
-        Bitmap bitmap = Bitmap.createBitmap(width, height,
-                Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-
-        return bitmap;
-    }
-
     public Bitmap getFilterResult() {
-
-
-        Bitmap mBitmap = Bitmap.createBitmap(mBitmapSrc.getWidth(),
-                mBitmapSrc.getHeight(), Config.RGB_565);
-        Canvas canvas = new Canvas(mBitmap);
-        canvas.drawBitmap(mBitmapSrc, 0, 0, null);
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0,
-                Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
-        canvas.save();
 
         GPUImage mGPImageTool = new GPUImage(getContext());
 
@@ -490,18 +429,18 @@ public class WMFilterOperateView extends RelativeLayout {
             brightnessFilter.setBrightness(brightnessValue);
             listTemp.add(brightnessFilter);
 
-            GPUImageWhiteBalanceFilter whiteBalanceFilter = new GPUImageWhiteBalanceFilter();
+            GPUImageFilterMineWhiteBalance whiteBalanceFilter = new GPUImageFilterMineWhiteBalance();
             whiteBalanceFilter.setTemperatureProportion(whiteBalanceValue);
             listTemp.add(whiteBalanceFilter);
 
-            GPUImageVignetteFilter vignetteFilter = new GPUImageVignetteFilter();
-            vignetteFilter.setVignetteStart(vignetteValue);
-            listTemp.add(vignetteFilter);
+//            GPUImageVignetteFilter vignetteFilter = new GPUImageVignetteFilter();
+//            vignetteFilter.setVignetteStart(vignetteValue);
+//            listTemp.add(vignetteFilter);
             GPUImageFilterGroup mGroupFilter = new GPUImageFilterGroup(
                     listTemp);
 
             mGPImageTool.setFilter(mGroupFilter);
-            filterBitmap = mGPImageTool.getBitmapWithFilterApplied(mBitmap);
+            filterBitmap = mGPImageTool.getBitmapWithFilterApplied(mBitmapSrc);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -565,13 +504,13 @@ public class WMFilterOperateView extends RelativeLayout {
                 brightnessFilter.setBrightness(brightnessValue);
                 listTemp.add(brightnessFilter);
 
-                GPUImageWhiteBalanceFilter whiteBalanceFilter = new GPUImageWhiteBalanceFilter();
+                GPUImageFilterMineWhiteBalance whiteBalanceFilter = new GPUImageFilterMineWhiteBalance();
                 whiteBalanceFilter.setTemperatureProportion(whiteBalanceValue);
                 listTemp.add(whiteBalanceFilter);
 
-                GPUImageVignetteFilter vignetteFilter = new GPUImageVignetteFilter();
-                vignetteFilter.setVignetteStart(vignetteValue);
-                listTemp.add(vignetteFilter);
+//                GPUImageVignetteFilter vignetteFilter = new GPUImageVignetteFilter();
+//                vignetteFilter.setVignetteStart(vignetteValue);
+//                listTemp.add(vignetteFilter);
                 GPUImageFilterGroup mGroupFilter = new GPUImageFilterGroup(
                         listTemp);
 
@@ -722,7 +661,6 @@ public class WMFilterOperateView extends RelativeLayout {
     public void recycle() {
         /* 滤镜 */
         if (mFilterOperateView != null) {
-            mFilterOperateView.recycle();
             mFilterOperateView = null;
         }
 
@@ -750,9 +688,9 @@ public class WMFilterOperateView extends RelativeLayout {
             whiteBalanceFilter = null;
         }
 
-        if (vignetteFilter != null) {
-            vignetteFilter = null;
-        }
+//        if (vignetteFilter != null) {
+//            vignetteFilter = null;
+//        }
     }
 
 }

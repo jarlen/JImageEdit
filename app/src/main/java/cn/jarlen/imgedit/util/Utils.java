@@ -16,6 +16,7 @@ import cn.jarlen.imgedit.bean.MainFuncBean;
 import cn.jarlen.imgedit.compress.CompressActivity;
 import cn.jarlen.imgedit.crop_rotate.CropRotateActivity;
 import cn.jarlen.imgedit.draw.DrawActivity;
+import cn.jarlen.imgedit.enhance.EnhanceActivity;
 import cn.jarlen.imgedit.frame.PhotoFrameActivity;
 import cn.jarlen.imgedit.mosaic.MosaicActivity;
 import cn.jarlen.imgedit.nine.NineActivity;
@@ -146,9 +147,9 @@ public class Utils {
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ENHANCE:
-//                funcIntent = new Intent(activity, EnhanceActivity.class);
-//                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                funcIntent = new Intent(activity, EnhanceActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;
             default:
                 break;

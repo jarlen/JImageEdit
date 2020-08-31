@@ -7,10 +7,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import cn.jarlen.imgedit.filter.base.GPUImageFilter;
-import cn.jarlen.imgedit.filter.base.OpenGlUtils;
-import cn.jarlen.imgedit.filter.base.Rotation;
-import cn.jarlen.imgedit.filter.base.TextureRotationUtil;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
+import jp.co.cyberagent.android.gpuimage.util.OpenGlUtils;
+import jp.co.cyberagent.android.gpuimage.util.Rotation;
+import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
 
 
 public class GPUImageFilterMine extends GPUImageFilter {
