@@ -41,7 +41,7 @@ public class EnhanceActivity extends BaseActivity implements JarlenView.OnRulerS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enhance);
-        mWMFilterOperateView = findViewById(R.id.wm_filter_operateview);
+        mWMFilterOperateView = findViewById(R.id.view_wm_filter_operate);
         mBitmapSrc = BitmapFactory.decodeFile(getImagePath());
 
         /** 微调选择区 **/

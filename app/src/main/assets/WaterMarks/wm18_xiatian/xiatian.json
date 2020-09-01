@@ -1,0 +1,34 @@
+{
+  "resource": [
+    "xiatian01_img.png",
+    "xiatian02_img.png",
+    "xiatian03_img.png",
+    "xiatian04_img.png",
+    "xiatian05_img.png",
+    "xiatian06_img.png",
+    "xiatian07_img.png",
+    "xiatian08_img.png",
+    "xiatian09_img.png",
+    "xiatian10_img.png",
+    "xiatian11_img.png",
+    "xiatian12_img.png"
+  ],
+  "icon": [
+    "thxiatian01_img@3x.png",
+    "thxiatian02_img@3x.png",
+    "thxiatian03_img@3x.png",
+    "thxiatian04_img@3x.png",
+    "thxiatian05_img@3x.png",
+    "thxiatian06_img@3x.png",
+    "thxiatian07_img@3x.png",
+    "thxiatian08_img@3x.png",
+    "thxiatian09_img@3x.png",
+    "thxiatian10_img@3x.png",
+    "thxiatian11_img@3x.png",
+    "thxiatian12_img@3x.png"
+  ],
+  "fixedIcon": null,
+  "folderId": "wm18_xiatian",
+  "tag": 0,
+  "typeName": "下个夏天"
+}

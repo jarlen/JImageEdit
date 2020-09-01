@@ -1,0 +1,26 @@
+{
+  "resource": [
+    "youtaidu01_img.png",
+    "youtaidu02_img.png",
+    "youtaidu03_img.png",
+    "youtaidu04_img.png",
+    "youtaidu05_img.png",
+    "youtaidu06_img.png",
+    "youtaidu07_img.png",
+    "youtaidu08_img.png"
+  ],
+  "icon": [
+    "thyoutaidu01_img@3x.png",
+    "thyoutaidu02_img@3x.png",
+    "thyoutaidu03_img@3x.png",
+    "thyoutaidu04_img@3x.png",
+    "thyoutaidu05_img@3x.png",
+    "thyoutaidu06_img@3x.png",
+    "thyoutaidu07_img@3x.png",
+    "thyoutaidu08_img@3x.png"
+  ],
+  "fixedIcon": null,
+  "folderId": "wm10_youtaidu",
+  "tag": 0,
+  "typeName": "有态度"
+}

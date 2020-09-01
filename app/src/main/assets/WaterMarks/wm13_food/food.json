@@ -1,0 +1,24 @@
+{
+  "resource": [
+    "food01_img.png",
+    "food02_img.png",
+    "food03_img.png",
+    "food04_img.png",
+    "food05_img.png",
+    "food06_img.png",
+    "food07_img.png"
+  ],
+  "icon": [
+    "thfood01_img@3x.png",
+    "thfood02_img@3x.png",
+    "thfood03_img@3x.png",
+    "thfood04_img@3x.png",
+    "thfood05_img@3x.png",
+    "thfood06_img@3x.png",
+    "thfood07_img@3x.png"
+  ],
+  "fixedIcon": null,
+  "folderId": "wm13_food",
+  "tag": 0,
+  "typeName": "食物的力量"
+}

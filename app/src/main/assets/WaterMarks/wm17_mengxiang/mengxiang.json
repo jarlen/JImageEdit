@@ -1,0 +1,28 @@
+{
+  "resource": [
+    "mengxiang01_img.png",
+    "mengxiang02_img.png",
+    "mengxiang03_img.png",
+    "mengxiang04_img.png",
+    "mengxiang05_img.png",
+    "mengxiang06_img.png",
+    "mengxiang07_img.png",
+    "mengxiang08_img.png",
+    "mengxiang09_img.png"
+  ],
+  "icon": [
+    "thmengxiang01_img@3x.png",
+    "thmengxiang02_img@3x.png",
+    "thmengxiang03_img@3x.png",
+    "thmengxiang04_img@3x.png",
+    "thmengxiang05_img@3x.png",
+    "thmengxiang06_img@3x.png",
+    "thmengxiang07_img@3x.png",
+    "thmengxiang08_img@3x.png",
+    "thmengxiang09_img@3x.png"
+  ],
+  "fixedIcon": null,
+  "folderId": "wm17_mengxiang",
+  "tag": 0,
+  "typeName": "最初的梦想"
+}

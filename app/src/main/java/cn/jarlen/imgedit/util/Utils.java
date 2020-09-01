@@ -17,6 +17,7 @@ import cn.jarlen.imgedit.compress.CompressActivity;
 import cn.jarlen.imgedit.crop_rotate.CropRotateActivity;
 import cn.jarlen.imgedit.draw.DrawActivity;
 import cn.jarlen.imgedit.enhance.EnhanceActivity;
+import cn.jarlen.imgedit.filter.FilterActivity;
 import cn.jarlen.imgedit.frame.PhotoFrameActivity;
 import cn.jarlen.imgedit.mosaic.MosaicActivity;
 import cn.jarlen.imgedit.nine.NineActivity;
@@ -82,6 +83,9 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_WARP:
                 funcName = "变形";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_FILTER:
+                funcName = "滤镜";
                 break;
             default:
                 funcName = "测试";
@@ -157,6 +161,11 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_WARP:
                 funcIntent = new Intent(activity, WarpActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_FILTER:
+                funcIntent = new Intent(activity, FilterActivity.class);
                 funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;

@@ -10,7 +10,7 @@
         layout="@layout/layout_toolbar" />
 
     <cn.jarlen.imgedit.filter.WMFilterOperateView
-        android:id="@+id/wm_filter_operateview"
+        android:id="@+id/view_wm_filter_operate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/image_edit_menu_ll"

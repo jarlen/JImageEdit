@@ -13,7 +13,40 @@
         <item>10</item>
         <item>11</item>
         <item>12</item>
+        <item>13</item>
     </integer-array>
+
+    <integer-array name="filterType">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </integer-array>
+
+    <string-array name="filterName">
+        <item>原图</item>
+        <item>Libra</item>
+        <item>Aquarius</item>
+        <item>Gemini</item>
+        <item>Pisces</item>
+        <item>Cancer</item>
+        <item>Scorpio</item>
+        <item>Virgo</item>
+        <item>Taurus</item>
+        <item>Capricorn</item>
+        <item>Leo</item>
+        <item>Aries</item>
+        <item>Sagittarius</item>
+    </string-array>
 
 
 </resources>

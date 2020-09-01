@@ -1,0 +1,40 @@
+{
+  "resource": [
+    "qixi01_img.png",
+    "qixi02_img.png",
+    "qixi03_img.png",
+    "qixi04_img.png",
+    "qixi05_img.png",
+    "qixi06_img.png",
+    "qixi07_img.png",
+    "qixi08_img.png",
+    "qixi09_img.png",
+    "qixi10_img.png",
+    "qixi11_img.png",
+    "qixi12_img.png",
+    "qixi13_img.png",
+    "qixi14_img.png",
+    "qixi15_img.png"
+  ],
+  "icon": [
+    "thqixi01_img@3x.png",
+    "thqixi02_img@3x.png",
+    "thqixi03_img@3x.png",
+    "thqixi04_img@3x.png",
+    "thqixi05_img@3x.png",
+    "thqixi06_img@3x.png",
+    "thqixi07_img@3x.png",
+    "thqixi08_img@3x.png",
+    "thqixi09_img@3x.png",
+    "thqixi10_img@3x.png",
+    "thqixi11_img@3x.png",
+    "thqixi12_img@3x.png",
+    "thqixi13_img@3x.png",
+    "thqixi14_img@3x.png",
+    "thqixi15_img@3x.png"
+  ],
+  "fixedIcon": null,
+  "folderId": "wm20_qixi",
+  "tag": 0,
+  "typeName": "七夕节"
+}

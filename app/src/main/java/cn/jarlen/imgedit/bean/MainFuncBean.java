@@ -19,6 +19,7 @@ public class MainFuncBean {
     public static final int MAIN_FUNC_TYPE_STICKER = 10;
     public static final int MAIN_FUNC_TYPE_ENHANCE = 11;
     public static final int MAIN_FUNC_TYPE_WARP = 12;
+    public static final int MAIN_FUNC_TYPE_FILTER = 13;
 
     private String funcName;
     private int funcType;
