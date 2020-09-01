@@ -21,6 +21,7 @@ import cn.jarlen.imgedit.frame.PhotoFrameActivity;
 import cn.jarlen.imgedit.mosaic.MosaicActivity;
 import cn.jarlen.imgedit.nine.NineActivity;
 import cn.jarlen.imgedit.sticker.StickerActivity;
+import cn.jarlen.imgedit.warp.WarpActivity;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -78,6 +79,9 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ENHANCE:
                 funcName = "增强";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_WARP:
+                funcName = "变形";
                 break;
             default:
                 funcName = "测试";
@@ -148,6 +152,11 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ENHANCE:
                 funcIntent = new Intent(activity, EnhanceActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_WARP:
+                funcIntent = new Intent(activity, WarpActivity.class);
                 funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;

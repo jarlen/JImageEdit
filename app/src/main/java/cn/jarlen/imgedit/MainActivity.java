@@ -28,7 +28,8 @@ import pub.devrel.easypermissions.PermissionRequest;
 public class MainActivity extends AppCompatActivity implements MainFuncAdapter.OnMainFuncItemListener, EasyPermissions.PermissionCallbacks {
 
 
-    private final String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE
+    private final String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     /* 用来标识请求gallery的activity */

@@ -13,4 +13,8 @@
 
     <dimen name="materialcolorpicker__activity_horizontal_margin">16dp</dimen>
     <dimen name="materialcolorpicker__activity_vertical_margin">16dp</dimen>
+
+    <!-- 身体变形 -->
+    <dimen name="max_dist">40dip</dimen>
+    <dimen name="warp_line">15dip</dimen>
 </resources>

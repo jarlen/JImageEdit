@@ -9,7 +9,7 @@ public class ImageEditApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.application = this;
+        application = this;
     }
 
     public static Application getApplication() {
