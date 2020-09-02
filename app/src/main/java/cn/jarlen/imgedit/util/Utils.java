@@ -87,6 +87,9 @@ public class Utils {
             case MainFuncBean.MAIN_FUNC_TYPE_FILTER:
                 funcName = "滤镜";
                 break;
+            case MainFuncBean.MAIN_FUNC_TYPE_ADD_TEXT:
+                funcName = "文字";
+                break;
             default:
                 funcName = "测试";
                 break;
