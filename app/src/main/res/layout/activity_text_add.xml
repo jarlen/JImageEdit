@@ -9,53 +9,55 @@
         android:id="@+id/layout_toolbar"
         layout="@layout/layout_toolbar" />
 
-    <cn.jarlen.imgedit.filter.WMFilterOperateView
-        android:id="@+id/view_wm_filter_operate"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rv_menu"
+        android:layout_above="@+id/layout_menu"
         android:layout_below="@+id/layout_toolbar"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:background="#414358" />
+        android:background="#000000">
+
+        <cn.jarlen.imgedit.imagezoom.ImageViewTouch
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:focusable="false" />
+
+        <cn.jarlen.imgedit.text.TextStickerView
+            android:id="@+id/view_sticker_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/rv_menu"
+        android:id="@+id/layout_menu"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:background="#000"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <Button
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:hint="请输入文字"
+            android:paddingLeft="8dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
+
+        <ImageView
             android:id="@+id/btn_color"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="颜色"
-            android:textColor="#979797"
-            android:textSize="18dp" />
-
-        <Button
-            android:id="@+id/btn_font"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="字体"
-            android:textColor="#979797"
-            android:textSize="18dp" />
-
-        <Button
-            android:id="@+id/btn_add_text"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="添加文字"
-            android:textColor="#979797"
-            android:textSize="18dp" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="#ffffff" />
     </LinearLayout>
+
 </RelativeLayout>

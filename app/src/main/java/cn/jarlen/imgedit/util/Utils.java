@@ -22,6 +22,7 @@ import cn.jarlen.imgedit.frame.PhotoFrameActivity;
 import cn.jarlen.imgedit.mosaic.MosaicActivity;
 import cn.jarlen.imgedit.nine.NineActivity;
 import cn.jarlen.imgedit.sticker.StickerActivity;
+import cn.jarlen.imgedit.text.TextAddActivity;
 import cn.jarlen.imgedit.warp.WarpActivity;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -169,6 +170,11 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_FILTER:
                 funcIntent = new Intent(activity, FilterActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_ADD_TEXT:
+                funcIntent = new Intent(activity, TextAddActivity.class);
                 funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;
