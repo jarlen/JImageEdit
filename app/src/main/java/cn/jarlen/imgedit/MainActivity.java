@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements MainFuncAdapter.O
     @Override
     public void onMainFuncItem(MainFuncBean bean) {
         this.funcBean = bean;
+        if (bean.getFuncType() == MainFuncBean.MAIN_FUNC_TYPE_PUZZLE) {
+            Utils.navigate2Func(this, funcBean, picturePath);
+            return;
+        }
         showSelectImage(bean);
     }
 

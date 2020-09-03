@@ -21,6 +21,7 @@ public class MainFuncBean {
     public static final int MAIN_FUNC_TYPE_WARP = 12;
     public static final int MAIN_FUNC_TYPE_FILTER = 13;
     public static final int MAIN_FUNC_TYPE_ADD_TEXT = 14;
+    public static final int MAIN_FUNC_TYPE_PUZZLE = 15;
 
     private String funcName;
     private int funcType;

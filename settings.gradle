@@ -1,2 +1,3 @@
+include ':puzzle'
 include ':app'
 rootProject.name='JImageEdit'

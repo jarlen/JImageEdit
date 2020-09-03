@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.widget.Toast;
 
+import com.xiaopo.flying.photolayout.PuzzleActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +93,9 @@ public class Utils {
             case MainFuncBean.MAIN_FUNC_TYPE_ADD_TEXT:
                 funcName = "文字";
                 break;
+            case MainFuncBean.MAIN_FUNC_TYPE_PUZZLE:
+                funcName = "拼图";
+                break;
             default:
                 funcName = "测试";
                 break;
@@ -175,6 +180,11 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ADD_TEXT:
                 funcIntent = new Intent(activity, TextAddActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_PUZZLE:
+                funcIntent = new Intent(activity, PuzzleActivity.class);
                 funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;
