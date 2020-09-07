@@ -38,9 +38,7 @@ public class EnhanceActivity extends BaseActivity implements JarlenView.OnRulerS
     View layoutMenu;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enhance);
+    protected void onBindView(Bundle savedInstanceState) {
         mWMFilterOperateView = findViewById(R.id.view_wm_filter_operate);
         mBitmapSrc = BitmapFactory.decodeFile(getImagePath());
 
@@ -87,6 +85,11 @@ public class EnhanceActivity extends BaseActivity implements JarlenView.OnRulerS
                 }
             }
         });
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_enhance;
     }
 
     /************************ 微调 Begin ****************************************/

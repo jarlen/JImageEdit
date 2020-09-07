@@ -17,19 +17,20 @@ public class MosaicActivity extends BaseActivity implements View.OnClickListener
 
     Bitmap srcBitmap;
     private int mWidth, mHeight;
-
-    int size = 5;
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mosaic);
 
+
+    }
+
+    @Override
+    protected void onBindView(Bundle savedInstanceState) {
         mosaic = findViewById(R.id.mosaic);
         findViewById(R.id.tv_base).setOnClickListener(this);
         findViewById(R.id.tv_flower).setOnClickListener(this);
-        findViewById(R.id.tv_ground_glass).setOnClickListener(this);
-        findViewById(R.id.tv_size).setOnClickListener(this);
         findViewById(R.id.tv_eraser).setOnClickListener(this);
 
         findViewById(R.id.iv_toolbar_save).setOnClickListener(new View.OnClickListener() {
@@ -49,7 +50,12 @@ public class MosaicActivity extends BaseActivity implements View.OnClickListener
         Bitmap bit = MosaicUtil.getMosaic(srcBitmap);
 
         mosaic.setMosaicResource(bit);
-        mosaic.setMosaicBrushWidth(10);
+        mosaic.setMosaicBrushWidth(32);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_mosaic;
     }
 
     @Override
@@ -67,20 +73,6 @@ public class MosaicActivity extends BaseActivity implements View.OnClickListener
                         R.drawable.hi4);
                 bit = FileUtils.ResizeBitmap(bit, mWidth, mHeight);
                 mosaic.setMosaicResource(bit);
-                break;
-            case R.id.tv_ground_glass:
-                Bitmap bitmapBlur = MosaicUtil.getBlur(srcBitmap);
-                mosaic.setMosaicResource(bitmapBlur);
-                break;
-            case R.id.tv_size:
-
-                if (size >= 30) {
-                    size = 5;
-                } else {
-                    size += 5;
-                }
-                mosaic.setMosaicBrushWidth(size);
-
                 break;
             default:
                 break;

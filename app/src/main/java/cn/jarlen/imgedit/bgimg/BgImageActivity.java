@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.vansuita.gaussianblur.GaussianBlur;
 
@@ -28,9 +27,7 @@ public class BgImageActivity extends BaseActivity implements View.OnClickListene
     DragFrameLayout layoutContainer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bg_image);
+    protected void onBindView(Bundle savedInstanceState) {
         layoutContainer = findViewById(R.id.layout_container);
         ivBg = findViewById(R.id.view_image_bg);
         ivPreview = findViewById(R.id.view_image_preview);
@@ -38,7 +35,7 @@ public class BgImageActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 Bitmap bitmap = FileUtils.getViewBitmap(layoutContainer);
-                saveImage(bitmap,"bgimg_");
+                saveImage(bitmap, "bgimg_");
             }
         });
 
@@ -51,6 +48,11 @@ public class BgImageActivity extends BaseActivity implements View.OnClickListene
         bitmapSrc = BitmapFactory.decodeFile(getImagePath());
         ivPreview.setImageBitmap(bitmapSrc);
         initBgImage(2);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_bg_image;
     }
 
     private void initBgImage(final int blur) {

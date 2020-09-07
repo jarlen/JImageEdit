@@ -41,10 +41,7 @@ public class StickerActivity extends BaseActivity implements StickerAdapter.OnSt
     StickerAdapter stickerAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sticker);
-
+    protected void onBindView(Bundle savedInstanceState) {
         mainImage = findViewById(R.id.iv_image);
         mainImage.setDoubleTapEnabled(false);
         mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
@@ -70,6 +67,11 @@ public class StickerActivity extends BaseActivity implements StickerAdapter.OnSt
         });
 
         initPaster();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_sticker;
     }
 
     private void initPaster() {

@@ -40,27 +40,7 @@
             android:text="花色"
             android:textColor="#000000"
             android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_ground_glass"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="毛玻璃"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_size"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="粗细"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
+        
         <TextView
             android:id="@+id/tv_eraser"
             android:layout_width="0dp"

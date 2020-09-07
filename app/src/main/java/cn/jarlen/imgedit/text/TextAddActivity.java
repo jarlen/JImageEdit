@@ -43,9 +43,7 @@ public class TextAddActivity extends BaseActivity implements TextWatcher {
     private InputMethodManager imm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text_add);
+    protected void onBindView(Bundle savedInstanceState) {
         mainImage = findViewById(R.id.iv_image);
         mTextStickerView = findViewById(R.id.view_sticker_text);
         etInput = findViewById(R.id.et_input);
@@ -88,6 +86,11 @@ public class TextAddActivity extends BaseActivity implements TextWatcher {
         mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
         mainImage.setScaleEnabled(false);
         mainImage.setImageBitmap(bitmapSrc);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_text_add;
     }
 
 

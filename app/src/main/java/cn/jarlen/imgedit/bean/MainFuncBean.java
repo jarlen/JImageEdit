@@ -23,6 +23,7 @@ public class MainFuncBean {
     public static final int MAIN_FUNC_TYPE_ADD_TEXT = 14;
     public static final int MAIN_FUNC_TYPE_PUZZLE = 15;
     public static final int MAIN_FUNC_TYPE_BG_IMG = 16;
+    public static final int MAIN_FUNC_TYPE_BLUR_TOUCH = 17;
 
     private String funcName;
     private int funcType;

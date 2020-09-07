@@ -25,9 +25,7 @@ public class NineActivity extends BaseActivity {
     ImageAdapter imageAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nine);
+    protected void onBindView(Bundle savedInstanceState) {
         recyclerView = findViewById(R.id.rv_list);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this)
@@ -39,6 +37,11 @@ public class NineActivity extends BaseActivity {
         imageAdapter = new ImageAdapter(this);
         recyclerView.setAdapter(imageAdapter);
         splitImage();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_nine;
     }
 
     private void splitImage() {

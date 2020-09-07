@@ -19,11 +19,7 @@ public class PhotoFrameActivity extends BaseActivity {
     PhotoFrameOnClickListener frameOnClickListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_frame);
-
-
+    protected void onBindView(Bundle savedInstanceState) {
         BitmapFactory.Options mOption = new BitmapFactory.Options();
         mOption.inSampleSize = 1;
 
@@ -43,6 +39,11 @@ public class PhotoFrameActivity extends BaseActivity {
                 saveImage(mTmpBmp, "frame_");
             }
         });
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_photo_frame;
     }
 
 

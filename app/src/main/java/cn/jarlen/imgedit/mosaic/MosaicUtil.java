@@ -51,7 +51,7 @@ public class MosaicUtil
 	{
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
-		int radius = 10;
+		int radius = 20;
 		
 		
 		Bitmap mosaicBitmap = Bitmap.createBitmap(width, height,
@@ -140,7 +140,7 @@ public class MosaicUtil
 	public static Bitmap getBlur(Bitmap bitmap)
 	{
 		int iterations = 1;
-		int radius = 8;
+		int radius = 12;
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		int[] inPixels = new int[width * height];

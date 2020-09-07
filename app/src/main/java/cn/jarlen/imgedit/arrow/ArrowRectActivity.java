@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
 
@@ -24,10 +22,7 @@ public class ArrowRectActivity extends BaseActivity {
     private boolean rectangleAble = false;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_arrow);
-
+    protected void onBindView(Bundle savedInstanceState) {
         rectangleAble = getIntent().getBooleanExtra(RECTANGLE_ABLE, false);
 
         mFrameLayout = findViewById(R.id.graffiti_container);
@@ -68,5 +63,10 @@ public class ArrowRectActivity extends BaseActivity {
 
         mGraffitiView.setShape(rectangleAble ? GraffitiView.Shape.HOLLOW_RECT : GraffitiView.Shape.ARROW);
         mFrameLayout.addView(mGraffitiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_arrow;
     }
 }

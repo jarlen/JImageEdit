@@ -40,9 +40,7 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
     private GPUImageFilterManager filterManager = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+    protected void onBindView(Bundle savedInstanceState) {
         filterList = findViewById(R.id.rv_list_filter);
         filterOperateView = findViewById(R.id.view_wm_filter_operate);
 
@@ -88,6 +86,11 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
         });
 
         initFilterThumbnail();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_filter;
     }
 
     private void initFilterThumbnail() {

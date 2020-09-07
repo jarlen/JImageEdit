@@ -26,9 +26,7 @@ public class WarpActivity extends BaseActivity {
     Bitmap bitmap;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_warp);
+    protected void onBindView(Bundle savedInstanceState) {
         warpView = findViewById(R.id.view_warp);
 
         TextView resetBtn = findViewById(R.id.iv_toolbar_right_two);
@@ -54,6 +52,11 @@ public class WarpActivity extends BaseActivity {
         warpView.setLevel(20);
         warpView.setSmllBody(false);
         init();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_warp;
     }
 
     private void init() {

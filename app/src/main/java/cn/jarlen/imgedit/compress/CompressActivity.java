@@ -27,10 +27,7 @@ public class CompressActivity extends BaseActivity {
     TextView ivImgSize;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compress);
-
+    protected void onBindView(Bundle savedInstanceState) {
         TextView save = findViewById(R.id.iv_toolbar_save);
         save.setText("压缩");
         save.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +46,12 @@ public class CompressActivity extends BaseActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
         ivImage.setImageBitmap(bitmap);
         ivImgSize.setText(FileUtils.formatFromSize(imgFile.length()));
+
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_compress;
     }
 
     private void compress() {

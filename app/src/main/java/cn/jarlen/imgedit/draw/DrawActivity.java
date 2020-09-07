@@ -58,10 +58,7 @@ public class DrawActivity extends BaseActivity implements ColorListAdapter.IColo
             Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.CYAN, Color.MAGENTA};
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_paint);
-
+    protected void onBindView(Bundle savedInstanceState) {
         mPaintView = findViewById(R.id.custom_paint_view);
         findViewById(R.id.iv_toolbar_save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +85,11 @@ public class DrawActivity extends BaseActivity implements ColorListAdapter.IColo
 
         mEraserView.setOnClickListener(this);
         updateEraserView();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_edit_paint;
     }
 
     /**

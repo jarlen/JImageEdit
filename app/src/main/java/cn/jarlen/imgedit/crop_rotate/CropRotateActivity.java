@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -16,8 +15,6 @@ import java.io.File;
 
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
-
-import static cn.jarlen.imgedit.util.Utils.saveImage2Photo;
 
 public class CropRotateActivity extends BaseActivity {
 
@@ -28,9 +25,7 @@ public class CropRotateActivity extends BaseActivity {
     private boolean showOnlyRotate;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crop);
+    protected void onBindView(Bundle savedInstanceState) {
         showOnlyRotate = getIntent().getBooleanExtra(IMAGE_SHOW_ONLY_ROTATE, false);
 
         cropImageView = findViewById(R.id.cropImageView);
@@ -64,5 +59,10 @@ public class CropRotateActivity extends BaseActivity {
         }
         cropImageView.setImageUriAsync(imageUri);
         cropImageView.setShowCropOverlay(!showOnlyRotate);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_crop;
     }
 }

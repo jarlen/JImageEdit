@@ -144,6 +144,7 @@ public class DrawMosaicView extends ViewGroup {
      * 初始化绘画板 默认的情况下是马赛克模式
      */
     private void initDrawView() {
+        setBackgroundColor(Color.TRANSPARENT);
         touchPaths = new ArrayList<MosaicPath>();
         erasePaths = new ArrayList<MosaicPath>();
 
@@ -154,7 +155,7 @@ public class DrawMosaicView extends ViewGroup {
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(6);
-        mPaint.setColor(0xff2a5caa);
+        mPaint.setColor(Color.TRANSPARENT);
         mImageRect = new Rect();
         setWillNotDraw(false);
         setMosaicType(MosaicUtil.MosaicType.MOSAIC);
