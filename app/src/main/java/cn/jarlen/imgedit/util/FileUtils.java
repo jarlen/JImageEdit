@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
+import android.view.View;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -651,6 +652,29 @@ public class FileUtils {
 
     public static String buildAssetPath(String fileName) {
         return "file:///android_asset/" + fileName;
+    }
+
+    public static Bitmap getViewBitmap(View view) {
+
+        view.clearFocus();
+        view.setPressed(false);
+        boolean willNotCache = view.willNotCacheDrawing();
+        view.setWillNotCacheDrawing(false);
+        int color = view.getDrawingCacheBackgroundColor();
+        view.setDrawingCacheBackgroundColor(0);
+        if (color != 0) {
+            view.destroyDrawingCache();
+        }
+        view.buildDrawingCache();
+        Bitmap cacheBitmap = view.getDrawingCache();
+        if (cacheBitmap == null) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+        view.destroyDrawingCache();
+        view.setWillNotCacheDrawing(willNotCache);
+        view.setDrawingCacheBackgroundColor(color);
+        return bitmap;
     }
 
 }

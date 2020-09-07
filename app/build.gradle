@@ -9,6 +9,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        renderscriptTargetApi 28
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -46,4 +48,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
     implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.github.jrvansuita:GaussianBlur:+'
 }

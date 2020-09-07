@@ -15,6 +15,7 @@ import cn.jarlen.imgedit.ImageEditApplication;
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.arrow.ArrowRectActivity;
 import cn.jarlen.imgedit.bean.MainFuncBean;
+import cn.jarlen.imgedit.bgimg.BgImageActivity;
 import cn.jarlen.imgedit.compress.CompressActivity;
 import cn.jarlen.imgedit.crop_rotate.CropRotateActivity;
 import cn.jarlen.imgedit.draw.DrawActivity;
@@ -95,6 +96,9 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_PUZZLE:
                 funcName = "拼图";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_BG_IMG:
+                funcName = "背景";
                 break;
             default:
                 funcName = "测试";
@@ -185,6 +189,11 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_PUZZLE:
                 funcIntent = new Intent(activity, PuzzleActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_BG_IMG:
+                funcIntent = new Intent(activity, BgImageActivity.class);
                 funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;
