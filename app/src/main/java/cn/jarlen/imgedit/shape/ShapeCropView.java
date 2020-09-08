@@ -2,21 +2,14 @@ package cn.jarlen.imgedit.shape;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-
-import cn.jarlen.imgedit.R;
 
 public class ShapeCropView extends View {
 
@@ -27,9 +20,6 @@ public class ShapeCropView extends View {
      */
     private Bitmap mBGBitmap;
 
-    private Bitmap mFloatBitmap;
-
-    private CropFloatView mFloatView;
 
     /**
      * 图片显示的矩阵
@@ -92,15 +82,7 @@ public class ShapeCropView extends View {
     private float x_down = 0;
     private float y_down = 0;
 
-    private float mRotation = 0;
     private PointF midPoint = new PointF();
-
-    private Rect mFloatRect;
-
-    /**
-     * 屏幕高宽度
-     */
-    private int mScrrenWidth, mScrrenHeight;
 
     public ShapeCropView(Context context) {
         this(context, null);
@@ -108,43 +90,67 @@ public class ShapeCropView extends View {
 
     public ShapeCropView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-
     }
 
     public ShapeCropView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.mContext = context;
-
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        mScrrenWidth = wm.getDefaultDisplay().getWidth();
-        mScrrenHeight = wm.getDefaultDisplay().getHeight() - 50;
-
-        mBGBitmap = BitmapFactory.decodeResource(mContext.getResources(),
-                R.drawable.test);
-
-        mFloatBitmap = BitmapFactory.decodeResource(mContext.getResources(),
-                R.drawable.shape_apple);
-
-        mFloatView = new CropFloatView(context, mScrrenWidth, mScrrenHeight);
-
-        mFloatView.setCropDrawable(mFloatBitmap);
-        mFloatRect = mFloatView.getCropDrawableRect();
         mBGgmatrix = new Matrix();
     }
 
+    public void setBackGroundBitMap(Bitmap bgBitmap) {
+        this.mBGBitmap = bgBitmap;
+        mBGgmatrix.reset();
+
+        invalidate();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // 父容器传过来的宽度方向上的模式
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        // 父容器传过来的高度方向上的模式
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+
+        // 父容器传过来的宽度的值
+        int width = MeasureSpec.getSize(widthMeasureSpec) - getPaddingLeft()
+                - getPaddingRight();
+        // 父容器传过来的高度的值
+        int height = MeasureSpec.getSize(heightMeasureSpec) - getPaddingLeft()
+                - getPaddingRight();
+
+        if (widthMode == MeasureSpec.EXACTLY
+                && heightMode != MeasureSpec.EXACTLY && ratio != 0.0f) {
+            // 判断条件为，宽度模式为Exactly，也就是填充父窗体或者是指定宽度；
+            // 且高度模式不是Exaclty，代表设置的既不是fill_parent也不是具体的值，于是需要具体测量
+            // 且图片的宽高比已经赋值完毕，不再是0.0f
+            // 表示宽度确定，要测量高度
+            height = (int) (width / ratio + 0.5f);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height,
+                    MeasureSpec.EXACTLY);
+        } else if (widthMode != MeasureSpec.EXACTLY
+                && heightMode == MeasureSpec.EXACTLY && ratio != 0.0f) {
+            // 判断条件跟上面的相反，宽度方向和高度方向的条件互换
+            // 表示高度确定，要测量宽度
+            width = (int) (height * ratio + 0.5f);
+
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(width,
+                    MeasureSpec.EXACTLY);
+        }
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
         canvas.drawColor(Color.parseColor("#ffFFFFFF"));
         canvas.drawBitmap(mBGBitmap, mBGgmatrix, null);
-        mFloatView.draw(canvas);
         canvas.restore();
     }
 
     float oldDist = 1f;
-    float currentZoom = 1f;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -158,7 +164,6 @@ public class ShapeCropView extends View {
             case MotionEvent.ACTION_POINTER_DOWN:
                 eventMode = EventMode.ZOOM;
                 oldDist = spacing(event);
-                mRotation = rotation(event);
                 savedMatrix.set(mBGgmatrix);
                 midPoint(midPoint, event);
                 break;
@@ -167,26 +172,17 @@ public class ShapeCropView extends View {
                     matrix1.set(savedMatrix);
                     matrix1.postTranslate(event.getX() - x_down, event.getY()
                             - y_down);
-                    mBGgmatrix.set(matrix1);
-                    invalidate();
                 } else if (eventMode == EventMode.ZOOM) {
-
-                    float rotation = rotation(event) - mRotation;
                     float newDist = spacing(event);
                     float scale = newDist / oldDist;
+                    Log.e("jarlen", "scale--->" + scale);
 
                     /** 缩放 **/
-                    float values[] = new float[9];
                     matrix1.set(savedMatrix);
                     matrix1.postScale(scale, scale, midPoint.x, midPoint.y);
-
-                    /** 旋转 **/
-                    matrix1.postRotate(rotation, midPoint.x, midPoint.y);
-                    mBGgmatrix.set(matrix1);
-
-                    invalidate();
                 }
-
+                mBGgmatrix.set(matrix1);
+                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
@@ -195,16 +191,7 @@ public class ShapeCropView extends View {
             default:
                 break;
         }
-
         return true;
-    }
-
-    // 取旋转角度
-    private float rotation(MotionEvent event) {
-        double delta_x = (event.getX(0) - event.getX(1));
-        double delta_y = (event.getY(0) - event.getY(1));
-        double radians = Math.atan2(delta_y, delta_x);
-        return (float) Math.toDegrees(radians);
     }
 
     // 取手势中心点
@@ -226,30 +213,31 @@ public class ShapeCropView extends View {
     }
 
     public Bitmap getBitmap() {
-        Bitmap tmpBitmap = Bitmap.createBitmap(mScrrenWidth, mScrrenHeight,
-                Bitmap.Config.ARGB_8888); // 背景图片
-        Canvas canvas = new Canvas(tmpBitmap); // 新建画布
-        canvas.drawBitmap(mBGBitmap, mBGgmatrix, null); // 画图片
-        canvas.save(); // 保存画布
-        canvas.restore();
-
-        Bitmap ret = Bitmap.createBitmap(tmpBitmap, mFloatRect.left,
-                mFloatRect.top, mFloatRect.width(), mFloatRect.height(), null,
-                true);
-        tmpBitmap.recycle();
-        tmpBitmap = null;
-
-        Bitmap newRet = Bitmap.createBitmap(mFloatRect.width(),
-                mFloatRect.height(), Bitmap.Config.ARGB_8888);
-
-        Canvas canvasHead = new Canvas(newRet);
-        canvasHead.drawBitmap(ret, 0, 0, null);
-        Paint paintHead = new Paint();
-        paintHead.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-        Bitmap crop = BitmapFactory.decodeResource(mContext.getResources(),
-                R.drawable.shape_apple);
-
-        canvasHead.drawBitmap(crop, 0, 0, paintHead);
+//        Bitmap tmpBitmap = Bitmap.createBitmap(mScrrenWidth, mScrrenHeight,
+//                Bitmap.Config.ARGB_8888); // 背景图片
+//        Canvas canvas = new Canvas(tmpBitmap); // 新建画布
+//        canvas.drawBitmap(mBGBitmap, mBGgmatrix, null); // 画图片
+//        canvas.save(); // 保存画布
+//        canvas.restore();
+//
+//        Bitmap ret = Bitmap.createBitmap(tmpBitmap, mFloatRect.left,
+//                mFloatRect.top, mFloatRect.width(), mFloatRect.height(), null,
+//                true);
+//        tmpBitmap.recycle();
+//        tmpBitmap = null;
+//
+        Bitmap newRet = null;
+//        = Bitmap.createBitmap(mFloatRect.width(),
+//                mFloatRect.height(), Bitmap.Config.ARGB_8888);
+//
+//        Canvas canvasHead = new Canvas(newRet);
+//        canvasHead.drawBitmap(ret, 0, 0, null);
+//        Paint paintHead = new Paint();
+//        paintHead.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+//        Bitmap crop = BitmapFactory.decodeResource(mContext.getResources(),
+//                R.drawable.shape_apple);
+//
+//        canvasHead.drawBitmap(crop, 0, 0, paintHead);
 
         return newRet;
     }

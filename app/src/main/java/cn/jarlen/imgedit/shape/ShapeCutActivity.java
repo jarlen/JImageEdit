@@ -1,6 +1,7 @@
 package cn.jarlen.imgedit.shape;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,6 +23,8 @@ public class ShapeCutActivity extends BaseActivity {
                 saveImage(bitmap, "shape_");
             }
         });
+        Bitmap bitmap = BitmapFactory.decodeFile(getImagePath());
+        shapeCropView.setBackGroundBitMap(bitmap);
     }
 
     @Override
