@@ -25,6 +25,7 @@ import cn.jarlen.imgedit.filter.FilterActivity;
 import cn.jarlen.imgedit.frame.PhotoFrameActivity;
 import cn.jarlen.imgedit.mosaic.MosaicActivity;
 import cn.jarlen.imgedit.nine.NineActivity;
+import cn.jarlen.imgedit.shape.ShapeCutActivity;
 import cn.jarlen.imgedit.sticker.StickerActivity;
 import cn.jarlen.imgedit.text.TextAddActivity;
 import cn.jarlen.imgedit.warp.WarpActivity;
@@ -103,6 +104,9 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_BLUR_TOUCH:
                 funcName = "模糊";
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_SHAPE_CUT:
+                funcName = "形状切图";
                 break;
             default:
                 funcName = "测试";
@@ -203,6 +207,11 @@ public class Utils {
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_BLUR_TOUCH:
                 funcIntent = new Intent(activity, TouchBlurActivity.class);
+                funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
+                break;
+            case MainFuncBean.MAIN_FUNC_TYPE_SHAPE_CUT:
+                funcIntent = new Intent(activity, ShapeCutActivity.class);
                 funcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 funcIntent.putExtra(CropRotateActivity.IMAGE_PATH, image);
                 break;

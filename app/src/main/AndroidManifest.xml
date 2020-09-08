@@ -20,6 +20,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".shape.ShapeCutActivity"></activity>
         <activity
             android:name=".blur.TouchBlurActivity"
             android:screenOrientation="portrait"
