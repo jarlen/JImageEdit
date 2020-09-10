@@ -25,6 +25,7 @@ public class ShapeCutActivity extends BaseActivity {
         });
         Bitmap bitmap = BitmapFactory.decodeFile(getImagePath());
         shapeCropView.setBackGroundBitMap(bitmap);
+        shapeCropView.setMaskResource(R.drawable.shape_apple);
     }
 
     @Override

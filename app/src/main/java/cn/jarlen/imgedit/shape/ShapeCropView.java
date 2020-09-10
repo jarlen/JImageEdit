@@ -2,29 +2,22 @@ package cn.jarlen.imgedit.shape;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 public class ShapeCropView extends View {
 
     protected Context mContext;
 
-    /**
-     * 背景部分，也就是上面的图形
-     */
-    private Bitmap mBGBitmap;
-
-
-    /**
-     * 图片显示的矩阵
-     */
-    private Matrix mBGgmatrix;
 
     /**
      * 图片操作临时矩阵
@@ -82,6 +75,25 @@ public class ShapeCropView extends View {
     private float x_down = 0;
     private float y_down = 0;
 
+
+    private int mViewWidth;
+    private int mViewHeight;
+    private int mMaskBitWidth;
+
+    /**
+     * 背景部分，也就是上面的图形
+     */
+    private Bitmap mBgBit;
+    /**
+     * 图片显示的矩阵
+     */
+    private Matrix mBgMatrix;
+    private float mScale;
+
+    private Bitmap mMaskBit;
+    private Matrix mMaskMatrix = new Matrix();
+
+
     private PointF midPoint = new PointF();
 
     public ShapeCropView(Context context) {
@@ -95,58 +107,65 @@ public class ShapeCropView extends View {
     public ShapeCropView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.mContext = context;
-        mBGgmatrix = new Matrix();
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        Point point = new Point();
+        wm.getDefaultDisplay().getSize(point);
+        mViewWidth = point.x;
+        mViewHeight = mViewWidth;
+        mBgMatrix = new Matrix();
     }
 
-    public void setBackGroundBitMap(Bitmap bgBitmap) {
-        this.mBGBitmap = bgBitmap;
-        mBGgmatrix.reset();
+    public void setMaskBitMap(Bitmap mask) {
+        this.mMaskBit = mask;
+        if (mMaskBit == null) {
+            return;
+        }
 
+        float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
+        mMaskMatrix.setScale(scale, scale);
+    }
+
+    public void setMaskResource(int resId) {
+        this.mMaskBit = BitmapFactory.decodeResource(getResources(), resId);
+        if (mMaskBit == null) {
+            return;
+        }
+
+        float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
+        mMaskMatrix.setScale(scale, scale);
+    }
+
+    public void setBackGroundBitMap(Bitmap bgBit) {
+        this.mBgBit = bgBit;
+        if (mBgBit == null) {
+            return;
+        }
+        float scaleWidth = mBgBit.getWidth() * 1.0f / mViewWidth;
+        float scaleHeight = mBgBit.getHeight() * 1.0f / mViewHeight;
+        mScale = Math.min(scaleWidth, scaleHeight);
+
+        mBgMatrix.setScale(mScale, mScale);
         invalidate();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // 父容器传过来的宽度方向上的模式
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        // 父容器传过来的高度方向上的模式
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-
-        // 父容器传过来的宽度的值
-        int width = MeasureSpec.getSize(widthMeasureSpec) - getPaddingLeft()
-                - getPaddingRight();
-        // 父容器传过来的高度的值
-        int height = MeasureSpec.getSize(heightMeasureSpec) - getPaddingLeft()
-                - getPaddingRight();
-
-        if (widthMode == MeasureSpec.EXACTLY
-                && heightMode != MeasureSpec.EXACTLY && ratio != 0.0f) {
-            // 判断条件为，宽度模式为Exactly，也就是填充父窗体或者是指定宽度；
-            // 且高度模式不是Exaclty，代表设置的既不是fill_parent也不是具体的值，于是需要具体测量
-            // 且图片的宽高比已经赋值完毕，不再是0.0f
-            // 表示宽度确定，要测量高度
-            height = (int) (width / ratio + 0.5f);
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height,
-                    MeasureSpec.EXACTLY);
-        } else if (widthMode != MeasureSpec.EXACTLY
-                && heightMode == MeasureSpec.EXACTLY && ratio != 0.0f) {
-            // 判断条件跟上面的相反，宽度方向和高度方向的条件互换
-            // 表示高度确定，要测量宽度
-            width = (int) (height * ratio + 0.5f);
-
-            widthMeasureSpec = MeasureSpec.makeMeasureSpec(width,
-                    MeasureSpec.EXACTLY);
-        }
-
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(mViewHeight,
+                MeasureSpec.EXACTLY);
+        widthMeasureSpec = MeasureSpec.makeMeasureSpec(mViewWidth,
+                MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
         canvas.drawColor(Color.parseColor("#ffFFFFFF"));
-        canvas.drawBitmap(mBGBitmap, mBGgmatrix, null);
+        canvas.drawBitmap(mBgBit, mBgMatrix, null);
+
+        canvas.drawBitmap(mMaskBit, mMaskMatrix, null);
+
         canvas.restore();
     }
 
@@ -159,12 +178,12 @@ public class ShapeCropView extends View {
                 eventMode = EventMode.DRAG;
                 x_down = event.getX();
                 y_down = event.getY();
-                savedMatrix.set(mBGgmatrix);
+                savedMatrix.set(mBgMatrix);
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 eventMode = EventMode.ZOOM;
                 oldDist = spacing(event);
-                savedMatrix.set(mBGgmatrix);
+                savedMatrix.set(mBgMatrix);
                 midPoint(midPoint, event);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -172,6 +191,8 @@ public class ShapeCropView extends View {
                     matrix1.set(savedMatrix);
                     matrix1.postTranslate(event.getX() - x_down, event.getY()
                             - y_down);
+
+
                 } else if (eventMode == EventMode.ZOOM) {
                     float newDist = spacing(event);
                     float scale = newDist / oldDist;
@@ -181,7 +202,9 @@ public class ShapeCropView extends View {
                     matrix1.set(savedMatrix);
                     matrix1.postScale(scale, scale, midPoint.x, midPoint.y);
                 }
-                mBGgmatrix.set(matrix1);
+
+
+                mBgMatrix.set(matrix1);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
