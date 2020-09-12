@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -81,9 +83,39 @@ public class ShapeCropView extends View {
     private int mMaskBitWidth;
 
     /**
+     * 操作状态
+     */
+    private final int STATUS_TOUCH_SINGLE = 1; // 单点
+    private final int STATUS_TOUCH_MULTI_START = 2; // 多点开始
+    private final int STATUS_TOUCH_MULTI_TOUCHING = 3; // 多点拖拽中
+
+    /* 单点触摸的时候 */
+    private float oldX = 0;
+    private float oldY = 0;
+
+    /**
+     * 多点触摸的时候
+     */
+    private float oldx_0 = 0;
+    private float oldy_0 = 0;
+
+    private float oldx_1 = 0;
+    private float oldy_1 = 0;
+
+
+    private int mTouchStatus = STATUS_TOUCH_SINGLE;
+
+    /**
      * 背景部分，也就是上面的图形
      */
     private Bitmap mBgBit;
+
+    private BitmapDrawable mBgDrawable;
+    private Rect mBgDrawableRect = new Rect();
+    private Rect mBgDrawableTempRect = new Rect();
+    private int originalWidth;
+    private float mOriginScale;
+
     /**
      * 图片显示的矩阵
      */
@@ -92,6 +124,10 @@ public class ShapeCropView extends View {
 
     private Bitmap mMaskBit;
     private Matrix mMaskMatrix = new Matrix();
+    private Rect mMaskDrawableRect = new Rect();
+
+    private RectF mapRect = new RectF();
+    private RectF mapRectTemp = new RectF();
 
 
     private PointF midPoint = new PointF();
@@ -116,15 +152,22 @@ public class ShapeCropView extends View {
         mBgMatrix = new Matrix();
     }
 
-    public void setMaskBitMap(Bitmap mask) {
-        this.mMaskBit = mask;
-        if (mMaskBit == null) {
-            return;
-        }
-
-        float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
-        mMaskMatrix.setScale(scale, scale);
-    }
+//    public void setMaskBitMap(Bitmap mask) {
+//        this.mMaskBit = mask;
+//        if (mMaskBit == null) {
+//            return;
+//        }
+//
+//        float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
+//
+//        mBgDrawableRect.set(0,0,);
+//
+//
+//        mBgDrawable.setBounds(mBgDrawableRect);
+//
+//
+//        mMaskMatrix.setScale(scale, scale);
+//    }
 
     public void setMaskResource(int resId) {
         this.mMaskBit = BitmapFactory.decodeResource(getResources(), resId);
@@ -133,6 +176,8 @@ public class ShapeCropView extends View {
         }
 
         float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
+
+
         mMaskMatrix.setScale(scale, scale);
     }
 
@@ -141,11 +186,27 @@ public class ShapeCropView extends View {
         if (mBgBit == null) {
             return;
         }
-        float scaleWidth = mBgBit.getWidth() * 1.0f / mViewWidth;
-        float scaleHeight = mBgBit.getHeight() * 1.0f / mViewHeight;
-        mScale = Math.min(scaleWidth, scaleHeight);
 
-        mBgMatrix.setScale(mScale, mScale);
+        float scaleWidth = mViewWidth * 1.0f / mBgBit.getWidth();
+        float scaleHeight = mViewHeight * 1.0f / mBgBit.getHeight();
+        mScale = Math.max(scaleWidth, scaleHeight);
+
+        int width = (int) (mBgBit.getWidth() * mScale);
+        int height = (int) (mBgBit.getHeight() * mScale);
+        originalWidth = width;
+        mOriginScale = mScale;
+        maxZoom = mOriginScale + 5;
+
+        int left = (int) (mViewWidth * 1.f / 2 - width * 1.0f / 2);
+        int top = (int) (mViewHeight * 1.f / 2 - height * 1.0f / 2);
+        int right = left + width;
+        int bottom = top + height;
+
+        mBgDrawableRect.set(left, top, right, bottom);
+        mBgDrawableTempRect.set(mBgDrawableRect);
+        mBgDrawable = new BitmapDrawable(mContext.getResources(), bgBit);
+        mBgDrawable.setBounds(mBgDrawableRect);
+
         invalidate();
     }
 
@@ -160,61 +221,200 @@ public class ShapeCropView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.save();
-        canvas.drawColor(Color.parseColor("#ffFFFFFF"));
-        canvas.drawBitmap(mBgBit, mBgMatrix, null);
-
-        canvas.drawBitmap(mMaskBit, mMaskMatrix, null);
-
-        canvas.restore();
+        mBgDrawable.draw(canvas);
     }
 
     float oldDist = 1f;
 
+    float moveX = 0, moveY = 0;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+//        if (event.getPointerCount() > 1) {
+//            if (mTouchStatus == STATUS_TOUCH_SINGLE) {
+//                mTouchStatus = STATUS_TOUCH_MULTI_START;
+//                oldx_0 = event.getX(0);
+//                oldy_0 = event.getY(0);
+//
+//                oldx_1 = event.getX(1);
+//                oldy_1 = event.getY(1);
+//            } else if (mTouchStatus == STATUS_TOUCH_MULTI_START) {
+//                mTouchStatus = STATUS_TOUCH_MULTI_TOUCHING;
+//            }
+//        } else {
+//            if (mTouchStatus == STATUS_TOUCH_MULTI_START
+//                    || mTouchStatus == STATUS_TOUCH_MULTI_TOUCHING) {
+//                oldx_0 = 0;
+//                oldy_0 = 0;
+//
+//                oldx_1 = 0;
+//                oldy_1 = 0;
+//
+//                oldX = event.getX();
+//                oldY = event.getY();
+//            }
+//            mTouchStatus = STATUS_TOUCH_SINGLE;
+//        }
+//
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//
+//                oldX = event.getX();
+//                oldY = event.getY();
+//                break;
+//
+//            case MotionEvent.ACTION_UP:
+//
+////                checkBounds();
+//                break;
+//
+//            case MotionEvent.ACTION_POINTER_UP:
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                if (mTouchStatus == STATUS_TOUCH_MULTI_TOUCHING){
+//                    float newx_0 = event.getX(0);
+//                    float newy_0 = event.getY(0);
+//
+//                    float newx_1 = event.getX(1);
+//                    float newy_1 = event.getY(1);
+//
+//                    float oldWidth = Math.abs(oldx_1 - oldx_0);
+//                    float oldHeight = Math.abs(oldy_1 - oldy_0);
+//
+//                    float newWidth = Math.abs(newx_1 - newx_0);
+//                    float newHeight = Math.abs(newy_1 - newy_0);
+//
+//                    boolean isDependHeight = Math.abs(newHeight - oldHeight) > Math
+//                            .abs(newWidth - oldWidth);
+//
+//                    float ration = isDependHeight
+//                            ? (newHeight / oldHeight)
+//                            : (newWidth / oldWidth);
+//                    int centerX = mBgDrawableRect.centerX();
+//                    int centerY = mBgDrawableRect.centerY();
+//                    int _newWidth = (int) (mBgDrawableRect.width() * ration);
+//                    int _newHeight = (int) (_newWidth / oriRationWH);
+//
+//
+//                }
+//
+//                break;
+//
+//            default:
+//                break;
+//        }
+
+
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                eventMode = EventMode.DRAG;
+                mBgDrawableTempRect.set(mBgDrawableRect);
+                moveX = 0;
+                moveY = 0;
                 x_down = event.getX();
                 y_down = event.getY();
-                savedMatrix.set(mBgMatrix);
+                eventMode = EventMode.DRAG;
+                Log.e("jarlen", "ACTION_DOWN");
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
+                mBgDrawableTempRect.set(mBgDrawableRect);
+                moveX = 0;
+                moveY = 0;
                 eventMode = EventMode.ZOOM;
                 oldDist = spacing(event);
-                savedMatrix.set(mBgMatrix);
                 midPoint(midPoint, event);
+                Log.e("jarlen", "ACTION_POINTER_DOWN");
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (eventMode == EventMode.DRAG) {
-                    matrix1.set(savedMatrix);
-                    matrix1.postTranslate(event.getX() - x_down, event.getY()
-                            - y_down);
+                    float dx = event.getX() - x_down;
+                    float dy = event.getY() - y_down;
+                    Log.e("jarlen", "ACTION_MOVE--->DRAG");
+                    int left = (int) (mBgDrawableTempRect.left + dx);
+                    int right = (int) (mBgDrawableTempRect.right + dx);
+                    if (left > 0) {
+                        left = 0;
+                        right = left + mBgDrawableTempRect.width();
+                    }
 
+                    if (right < mViewWidth) {
+                        right = mViewHeight;
+                        left = mViewHeight - mBgDrawableTempRect.width();
+                    }
+                    int top = (int) (mBgDrawableTempRect.top + dy);
+                    int bottom = (int) (mBgDrawableTempRect.bottom + dy);
+                    if (top > 0) {
+                        top = 0;
+                        bottom = top + mBgDrawableTempRect.height();
+                    }
 
+                    if (bottom < mViewHeight) {
+                        bottom = mViewHeight;
+                        top = bottom - mBgDrawableTempRect.height();
+                    }
+
+                    mBgDrawableRect.set(left, top, right, bottom);
+                    mBgDrawable.setBounds(mBgDrawableRect);
+                    invalidate();
                 } else if (eventMode == EventMode.ZOOM) {
                     float newDist = spacing(event);
                     float scale = newDist / oldDist;
-                    Log.e("jarlen", "scale--->" + scale);
+                    Log.e("jarlen", "ACTION_MOVE--->ZOOM scale--->" + scale);
 
-                    /** 缩放 **/
-                    matrix1.set(savedMatrix);
-                    matrix1.postScale(scale, scale, midPoint.x, midPoint.y);
+                    int centerX = mBgDrawableTempRect.centerX();
+                    int centerY = mBgDrawableTempRect.centerY();
+
+                    int newWidth = (int) (mBgDrawableTempRect.width() * scale);
+                    float scaleTemp = newWidth * 1.0f / originalWidth;
+                    scaleTemp = Math.max(Math.min(scaleTemp, maxZoom), mOriginScale);
+                    newWidth = (int) (mBgDrawableTempRect.width() * scaleTemp);
+                    int newHeight = (int) (mBgDrawableTempRect.height() * scaleTemp);
+
+                    int left = (int) (centerX - newWidth / 2.0f);
+                    int right = (int) (centerX + newWidth / 2.0f);
+
+                    if (left > 0) {
+                        left = 0;
+                        right = left + mBgDrawableTempRect.width();
+                    }
+
+                    if (right < mViewWidth) {
+                        right = mViewHeight;
+                        left = mViewHeight - mBgDrawableTempRect.width();
+                    }
+                    int top = (int) (centerY - newHeight / 2.0f);
+                    int bottom = (int) (centerY + newHeight / 2.0f);
+                    if (top > 0) {
+                        top = 0;
+                        bottom = top + mBgDrawableTempRect.height();
+                    }
+
+                    if (bottom < mViewHeight) {
+                        bottom = mViewHeight;
+                        top = bottom - mBgDrawableTempRect.height();
+                    }
+
+                    mBgDrawableRect.set(left, top, right, bottom);
+                    mBgDrawable.setBounds(mBgDrawableRect);
+                    invalidate();
                 }
-
-
-                mBgMatrix.set(matrix1);
-                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
+                mBgDrawableTempRect.set(mBgDrawableRect);
                 eventMode = EventMode.NONE;
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void checkRect(RectF dst, RectF sr) {
+        if (mapRect.right > 0) {
+            mapRectTemp.right = 0;
+        }
+
     }
 
     // 取手势中心点

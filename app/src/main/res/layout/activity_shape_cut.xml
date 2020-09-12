@@ -11,5 +11,6 @@
     <cn.jarlen.imgedit.shape.ShapeCropView
         android:id="@+id/view_shape_cut"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#00ff00" />
 </LinearLayout>
