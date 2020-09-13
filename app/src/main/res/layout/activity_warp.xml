@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_win_color"
     android:orientation="vertical"
     tools:context=".warp.WarpActivity">
 
@@ -11,5 +12,5 @@
     <cn.jarlen.imgedit.warp.SmallFaceView
         android:id="@+id/view_warp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

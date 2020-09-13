@@ -19,11 +19,13 @@ import io.reactivex.schedulers.Schedulers;
 public class TouchBlurActivity extends BaseActivity {
 
     DrawMosaicView mosaicView;
-
     Bitmap bitmapSrc;
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+
+        setToolbarTitle("模糊");
+
         mosaicView = findViewById(R.id.view_mosaic);
 
         findViewById(R.id.iv_toolbar_save).setOnClickListener(new View.OnClickListener() {

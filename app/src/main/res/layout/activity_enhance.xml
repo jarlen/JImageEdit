@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_win_color"
     tools:context=".enhance.EnhanceActivity">
 
     <include
@@ -14,14 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/image_edit_menu_ll"
-        android:layout_below="@+id/layout_toolbar"
-        android:background="#414358" />
+        android:layout_below="@+id/layout_toolbar" />
 
     <FrameLayout
         android:id="@+id/image_edit_menu_ll"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#414358"
+        android:layout_height="@dimen/bottom_menu_height"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
@@ -34,8 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:background="#2C3241">
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -45,7 +43,7 @@
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:text="亮度"
-                    android:textColor="#66688A"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -55,8 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
-                android:layout_weight="1"
-                android:background="#2C3241">
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -66,7 +63,7 @@
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:text="色温"
-                    android:textColor="#66688A"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
@@ -75,7 +72,6 @@
             android:id="@+id/adjustBar_rl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#2A2D3E"
             android:visibility="gone">
 
             <TextView
@@ -84,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:textColor="#BA89EB"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
             <TextView
@@ -95,7 +91,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:text="复位"
-                android:textColor="#BA89EB"
+                android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
             <cn.jarlen.imgedit.enhance.JarlenView

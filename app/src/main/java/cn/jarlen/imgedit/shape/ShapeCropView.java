@@ -4,64 +4,27 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+
+import cn.jarlen.imgedit.util.FileUtils;
 
 public class ShapeCropView extends View {
 
     protected Context mContext;
 
-
-    /**
-     * 图片操作临时矩阵
-     */
-    public Matrix matrix1 = new Matrix();
-
-    /**
-     * 记录拖动前的矩阵
-     */
-    Matrix savedMatrix = new Matrix();
-
-    /**
-     * 最初两点的距离;用来计算缩放比 除改变后的距离就是缩放比
-     */
-    private PointF dpoint = new PointF(); // 偏移位置
-
-    /**
-     * 中心点坐标
-     */
-    private PointF centerP = new PointF();
-
-    /**
-     * aciton_down 记录的点击点
-     */
-    private PointF startP = new PointF();
-
-    private PointF begMoveP = new PointF();
-
-    /**
-     * 拖动中的缩放
-     */
-    float moveDist = 1f;
-
     /**
      * 最大缩放值
      */
     private float maxZoom = 2.0f;
-
-    /**
-     * 最小缩放值
-     */
-    private float minZoom = 1f;
 
     /**
      * 操作事件类型 DRAG：拖动 ZOOM：缩放
@@ -77,60 +40,28 @@ public class ShapeCropView extends View {
     private float x_down = 0;
     private float y_down = 0;
 
-
     private int mViewWidth;
     private int mViewHeight;
-    private int mMaskBitWidth;
-
-    /**
-     * 操作状态
-     */
-    private final int STATUS_TOUCH_SINGLE = 1; // 单点
-    private final int STATUS_TOUCH_MULTI_START = 2; // 多点开始
-    private final int STATUS_TOUCH_MULTI_TOUCHING = 3; // 多点拖拽中
-
-    /* 单点触摸的时候 */
-    private float oldX = 0;
-    private float oldY = 0;
-
-    /**
-     * 多点触摸的时候
-     */
-    private float oldx_0 = 0;
-    private float oldy_0 = 0;
-
-    private float oldx_1 = 0;
-    private float oldy_1 = 0;
-
-
-    private int mTouchStatus = STATUS_TOUCH_SINGLE;
-
-    /**
-     * 背景部分，也就是上面的图形
-     */
-    private Bitmap mBgBit;
 
     private BitmapDrawable mBgDrawable;
     private Rect mBgDrawableRect = new Rect();
     private Rect mBgDrawableTempRect = new Rect();
     private int originalWidth;
     private float mOriginScale;
+    private float mRadioWH;
 
-    /**
-     * 图片显示的矩阵
-     */
-    private Matrix mBgMatrix;
-    private float mScale;
+    private BitmapDrawable maskDrawable;
 
-    private Bitmap mMaskBit;
-    private Matrix mMaskMatrix = new Matrix();
     private Rect mMaskDrawableRect = new Rect();
 
     private RectF mapRect = new RectF();
     private RectF mapRectTemp = new RectF();
 
-
     private PointF midPoint = new PointF();
+
+    float oldDist = 1f;
+
+    private float centerX, centerY;
 
     public ShapeCropView(Context context) {
         this(context, null);
@@ -149,52 +80,43 @@ public class ShapeCropView extends View {
         wm.getDefaultDisplay().getSize(point);
         mViewWidth = point.x;
         mViewHeight = mViewWidth;
-        mBgMatrix = new Matrix();
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
-//    public void setMaskBitMap(Bitmap mask) {
-//        this.mMaskBit = mask;
-//        if (mMaskBit == null) {
-//            return;
-//        }
-//
-//        float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
-//
-//        mBgDrawableRect.set(0,0,);
-//
-//
-//        mBgDrawable.setBounds(mBgDrawableRect);
-//
-//
-//        mMaskMatrix.setScale(scale, scale);
-//    }
-
     public void setMaskResource(int resId) {
-        this.mMaskBit = BitmapFactory.decodeResource(getResources(), resId);
+        Bitmap mMaskBit = BitmapFactory.decodeResource(getResources(), resId);
         if (mMaskBit == null) {
             return;
         }
+        maskDrawable = new BitmapDrawable(mContext.getResources(), mMaskBit);
 
-        float scale = mViewWidth * 1.0f / mMaskBit.getWidth();
-
-
-        mMaskMatrix.setScale(scale, scale);
+        int left = 0;
+        int top = 0;
+        int right = mViewWidth;
+        int bottom = mViewHeight;
+        mMaskDrawableRect.set(left, top, right, bottom);
+        maskDrawable.setBounds(mMaskDrawableRect);
+        invalidate();
     }
 
     public void setBackGroundBitMap(Bitmap bgBit) {
-        this.mBgBit = bgBit;
-        if (mBgBit == null) {
+        /**
+         * 背景部分，也就是上面的图形
+         */
+        if (bgBit == null) {
             return;
         }
 
-        float scaleWidth = mViewWidth * 1.0f / mBgBit.getWidth();
-        float scaleHeight = mViewHeight * 1.0f / mBgBit.getHeight();
-        mScale = Math.max(scaleWidth, scaleHeight);
+        float scaleWidth = mViewWidth * 1.0f / bgBit.getWidth();
+        float scaleHeight = mViewHeight * 1.0f / bgBit.getHeight();
+        float mScale = Math.max(scaleWidth, scaleHeight);
 
-        int width = (int) (mBgBit.getWidth() * mScale);
-        int height = (int) (mBgBit.getHeight() * mScale);
-        originalWidth = width;
+        int width = (int) (bgBit.getWidth() * mScale);
+        int height = (int) (bgBit.getHeight() * mScale);
+        originalWidth = bgBit.getWidth();
+        mRadioWH = bgBit.getWidth() * 1.0f / bgBit.getHeight();
         mOriginScale = mScale;
+
         maxZoom = mOriginScale + 5;
 
         int left = (int) (mViewWidth * 1.f / 2 - width * 1.0f / 2);
@@ -206,7 +128,8 @@ public class ShapeCropView extends View {
         mBgDrawableTempRect.set(mBgDrawableRect);
         mBgDrawable = new BitmapDrawable(mContext.getResources(), bgBit);
         mBgDrawable.setBounds(mBgDrawableRect);
-
+        centerX = mBgDrawableRect.centerX();
+        centerY = mBgDrawableRect.centerY();
         invalidate();
     }
 
@@ -221,115 +144,36 @@ public class ShapeCropView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        mBgDrawable.draw(canvas);
+        super.onDraw(canvas);
+        if (mBgDrawable != null) {
+            mBgDrawable.draw(canvas);
+        }
+
+        if (maskDrawable != null) {
+            maskDrawable.draw(canvas);
+        }
     }
-
-    float oldDist = 1f;
-
-    float moveX = 0, moveY = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-//        if (event.getPointerCount() > 1) {
-//            if (mTouchStatus == STATUS_TOUCH_SINGLE) {
-//                mTouchStatus = STATUS_TOUCH_MULTI_START;
-//                oldx_0 = event.getX(0);
-//                oldy_0 = event.getY(0);
-//
-//                oldx_1 = event.getX(1);
-//                oldy_1 = event.getY(1);
-//            } else if (mTouchStatus == STATUS_TOUCH_MULTI_START) {
-//                mTouchStatus = STATUS_TOUCH_MULTI_TOUCHING;
-//            }
-//        } else {
-//            if (mTouchStatus == STATUS_TOUCH_MULTI_START
-//                    || mTouchStatus == STATUS_TOUCH_MULTI_TOUCHING) {
-//                oldx_0 = 0;
-//                oldy_0 = 0;
-//
-//                oldx_1 = 0;
-//                oldy_1 = 0;
-//
-//                oldX = event.getX();
-//                oldY = event.getY();
-//            }
-//            mTouchStatus = STATUS_TOUCH_SINGLE;
-//        }
-//
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//
-//                oldX = event.getX();
-//                oldY = event.getY();
-//                break;
-//
-//            case MotionEvent.ACTION_UP:
-//
-////                checkBounds();
-//                break;
-//
-//            case MotionEvent.ACTION_POINTER_UP:
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                if (mTouchStatus == STATUS_TOUCH_MULTI_TOUCHING){
-//                    float newx_0 = event.getX(0);
-//                    float newy_0 = event.getY(0);
-//
-//                    float newx_1 = event.getX(1);
-//                    float newy_1 = event.getY(1);
-//
-//                    float oldWidth = Math.abs(oldx_1 - oldx_0);
-//                    float oldHeight = Math.abs(oldy_1 - oldy_0);
-//
-//                    float newWidth = Math.abs(newx_1 - newx_0);
-//                    float newHeight = Math.abs(newy_1 - newy_0);
-//
-//                    boolean isDependHeight = Math.abs(newHeight - oldHeight) > Math
-//                            .abs(newWidth - oldWidth);
-//
-//                    float ration = isDependHeight
-//                            ? (newHeight / oldHeight)
-//                            : (newWidth / oldWidth);
-//                    int centerX = mBgDrawableRect.centerX();
-//                    int centerY = mBgDrawableRect.centerY();
-//                    int _newWidth = (int) (mBgDrawableRect.width() * ration);
-//                    int _newHeight = (int) (_newWidth / oriRationWH);
-//
-//
-//                }
-//
-//                break;
-//
-//            default:
-//                break;
-//        }
-
-
-        switch (event.getAction()) {
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
-                mBgDrawableTempRect.set(mBgDrawableRect);
-                moveX = 0;
-                moveY = 0;
-                x_down = event.getX();
-                y_down = event.getY();
-                eventMode = EventMode.DRAG;
-                Log.e("jarlen", "ACTION_DOWN");
-                break;
             case MotionEvent.ACTION_POINTER_DOWN:
-                mBgDrawableTempRect.set(mBgDrawableRect);
-                moveX = 0;
-                moveY = 0;
-                eventMode = EventMode.ZOOM;
-                oldDist = spacing(event);
-                midPoint(midPoint, event);
-                Log.e("jarlen", "ACTION_POINTER_DOWN");
+                if (event.getPointerCount() > 1) {
+                    eventMode = EventMode.ZOOM;
+                    oldDist = spacing(event);
+                    midPoint(midPoint, event);
+                    mBgDrawableTempRect.set(mBgDrawableRect);
+                } else {
+                    x_down = event.getX();
+                    y_down = event.getY();
+                    eventMode = EventMode.DRAG;
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (eventMode == EventMode.DRAG) {
                     float dx = event.getX() - x_down;
                     float dy = event.getY() - y_down;
-                    Log.e("jarlen", "ACTION_MOVE--->DRAG");
                     int left = (int) (mBgDrawableTempRect.left + dx);
                     int right = (int) (mBgDrawableTempRect.right + dx);
                     if (left > 0) {
@@ -355,47 +199,50 @@ public class ShapeCropView extends View {
 
                     mBgDrawableRect.set(left, top, right, bottom);
                     mBgDrawable.setBounds(mBgDrawableRect);
+                    centerX = mBgDrawableRect.centerX();
+                    centerY = mBgDrawableRect.centerY();
                     invalidate();
                 } else if (eventMode == EventMode.ZOOM) {
                     float newDist = spacing(event);
                     float scale = newDist / oldDist;
-                    Log.e("jarlen", "ACTION_MOVE--->ZOOM scale--->" + scale);
-
-                    int centerX = mBgDrawableTempRect.centerX();
-                    int centerY = mBgDrawableTempRect.centerY();
 
                     int newWidth = (int) (mBgDrawableTempRect.width() * scale);
                     float scaleTemp = newWidth * 1.0f / originalWidth;
-                    scaleTemp = Math.max(Math.min(scaleTemp, maxZoom), mOriginScale);
-                    newWidth = (int) (mBgDrawableTempRect.width() * scaleTemp);
-                    int newHeight = (int) (mBgDrawableTempRect.height() * scaleTemp);
 
-                    int left = (int) (centerX - newWidth / 2.0f);
-                    int right = (int) (centerX + newWidth / 2.0f);
+                    scaleTemp = Math.max(Math.min(scaleTemp, maxZoom), mOriginScale);
+                    newWidth = (int) (originalWidth * scaleTemp);
+                    int newHeight = (int) (newWidth / mRadioWH);
+
+                    int left = (int) (centerX - newWidth / 2);
+                    int right = (int) (centerX + newWidth / 2);
 
                     if (left > 0) {
                         left = 0;
-                        right = left + mBgDrawableTempRect.width();
+                        right = newWidth;
                     }
 
                     if (right < mViewWidth) {
                         right = mViewHeight;
-                        left = mViewHeight - mBgDrawableTempRect.width();
+                        left = mViewHeight - newWidth;
                     }
-                    int top = (int) (centerY - newHeight / 2.0f);
-                    int bottom = (int) (centerY + newHeight / 2.0f);
+
+                    int top = (int) (centerY - newHeight / 2);
+                    int bottom = (int) (centerY + newHeight / 2);
+
+
                     if (top > 0) {
                         top = 0;
-                        bottom = top + mBgDrawableTempRect.height();
+                        bottom = top + newHeight;
                     }
 
                     if (bottom < mViewHeight) {
                         bottom = mViewHeight;
-                        top = bottom - mBgDrawableTempRect.height();
+                        top = bottom - newHeight;
                     }
-
                     mBgDrawableRect.set(left, top, right, bottom);
                     mBgDrawable.setBounds(mBgDrawableRect);
+                    centerX = mBgDrawableRect.centerX();
+                    centerY = mBgDrawableRect.centerY();
                     invalidate();
                 }
                 break;
@@ -436,32 +283,7 @@ public class ShapeCropView extends View {
     }
 
     public Bitmap getBitmap() {
-//        Bitmap tmpBitmap = Bitmap.createBitmap(mScrrenWidth, mScrrenHeight,
-//                Bitmap.Config.ARGB_8888); // 背景图片
-//        Canvas canvas = new Canvas(tmpBitmap); // 新建画布
-//        canvas.drawBitmap(mBGBitmap, mBGgmatrix, null); // 画图片
-//        canvas.save(); // 保存画布
-//        canvas.restore();
-//
-//        Bitmap ret = Bitmap.createBitmap(tmpBitmap, mFloatRect.left,
-//                mFloatRect.top, mFloatRect.width(), mFloatRect.height(), null,
-//                true);
-//        tmpBitmap.recycle();
-//        tmpBitmap = null;
-//
-        Bitmap newRet = null;
-//        = Bitmap.createBitmap(mFloatRect.width(),
-//                mFloatRect.height(), Bitmap.Config.ARGB_8888);
-//
-//        Canvas canvasHead = new Canvas(newRet);
-//        canvasHead.drawBitmap(ret, 0, 0, null);
-//        Paint paintHead = new Paint();
-//        paintHead.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-//        Bitmap crop = BitmapFactory.decodeResource(mContext.getResources(),
-//                R.drawable.shape_apple);
-//
-//        canvasHead.drawBitmap(crop, 0, 0, paintHead);
-
-        return newRet;
+        Bitmap bitmap = FileUtils.getViewBitmap(this);
+        return bitmap;
     }
 }

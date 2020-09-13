@@ -68,28 +68,6 @@
 
     <color name="common_widget_msg_hint_bg">#ED5A48</color>
 
-    /*主题色*/
-    <color name="skinable_theme_color_C1_1" tools:ignore="ResourceName">#FF599BF8</color>
-
-    /*导航栏选中颜色*/
-    <color name="skinable_sliding_text_color_selected" tools:ignore="ResourceName">#FF00B1FF</color>
-    /*导航栏未选中颜色*/
-    <color name="skinable_sliding_text_color_unselected" tools:ignore="ResourceName">#FF333333
-    </color>
-    /*导航栏指示器颜色*/
-    <color name="skinable_indicator_color" tools:ignore="ResourceName">#FF00B1FF</color>
-    /*导航栏背景颜色*/
-    <color name="skinable_background_color" tools:ignore="ResourceName">#FFFFFF</color>
-
-    /*主界面Toolbar标题字体色*/
-    <color name="skinable_home_toolbar_title_text_color" tools:ignore="ResourceName">#FF333333
-    </color>
-
-    /*主界面导航栏底部文字选中颜色*/
-    <color name="skinable_main_tab_text_color_selected" tools:ignore="ResourceName">#FF599BF8
-    </color>
-
-
     <color name="skinable_main_tab_text_color_normal" tools:ignore="ResourceName">#FFBBBBBB</color>
     <color name="materialcolorpicker__white">#ffffff</color>
     <color name="materialcolorpicker__red">#f44336</color>
@@ -101,5 +79,4 @@
     <color name="materialcolorpicker__dribbledark">#c32361</color>
     <color name="materialcolorpicker__black">#000000</color>
     <color name="materialcolorpicker__dialogcolor">#009688</color>
-
 </resources>

@@ -23,13 +23,14 @@ import top.zibin.luban.Luban;
 
 public class CompressActivity extends BaseActivity {
 
-    ImageView ivImage;
-    TextView ivImgSize;
+    private ImageView ivImage;
+    private TextView ivImgSize;
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("压缩");
         TextView save = findViewById(R.id.iv_toolbar_save);
-        save.setText("压缩");
+        save.setText("压缩保存");
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,8 +46,7 @@ public class CompressActivity extends BaseActivity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
         ivImage.setImageBitmap(bitmap);
-        ivImgSize.setText(FileUtils.formatFromSize(imgFile.length()));
-
+        ivImgSize.setText("原图大小: " + FileUtils.formatFromSize(imgFile.length()));
     }
 
     @Override
@@ -55,7 +55,6 @@ public class CompressActivity extends BaseActivity {
     }
 
     private void compress() {
-
         Observable.just(getImagePath())
                 .map(new Function<String, File>() {
                     @Override
@@ -73,7 +72,7 @@ public class CompressActivity extends BaseActivity {
                     public void onNext(File file) {
                         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                         ivImage.setImageBitmap(bitmap);
-                        ivImgSize.setText(FileUtils.formatFromSize(file.length()));
+                        ivImgSize.setText("压缩大小: " + FileUtils.formatFromSize(file.length()));
                         saveImage(bitmap, "compress_");
                     }
 

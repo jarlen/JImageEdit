@@ -6,7 +6,6 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +16,7 @@ import java.util.concurrent.Callable;
 import cn.jarlen.imgedit.ImageEditApplication;
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
+import cn.jarlen.imgedit.base.OnAdapterItemClickListener;
 import cn.jarlen.imgedit.filter.edit.OperateView;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -26,21 +26,21 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
 
-public class FilterActivity extends BaseActivity implements OnFilterItemClickListener<FilterItem> {
+public class FilterActivity extends BaseActivity implements OnAdapterItemClickListener<FilterItem> {
 
-    RecyclerView filterList;
-    WMFilterOperateView filterOperateView;
-    FilterAdapter filterAdapter;
-    private ArrayList<FilterItem> mFilterList = new ArrayList<>();
+    private RecyclerView filterList;
+    private WMFilterOperateView filterOperateView;
+    private FilterAdapter filterAdapter;
 
-    Bitmap mBitmapSrc;
+    private Bitmap mBitmapSrc;
 
-    TextView saveBtn;
+    private TextView saveBtn;
 
     private GPUImageFilterManager filterManager = null;
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("滤镜");
         filterList = findViewById(R.id.rv_list_filter);
         filterOperateView = findViewById(R.id.view_wm_filter_operate);
 
@@ -142,7 +142,6 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
 
                     @Override
                     public void onNext(ArrayList<FilterItem> filterItems) {
-                        mFilterList = filterItems;
                         filterAdapter.addDataList(filterItems);
                     }
 
@@ -159,7 +158,7 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
     }
 
     @Override
-    public void onFilterItemClick(FilterItem item, int position) {
+    public void onItemClick(FilterItem item, int position) {
         if (filterManager == null) {
             filterManager = new GPUImageFilterManager(this);
         }
@@ -169,7 +168,6 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
 
         filterOperateView.setFilterTypeInManager(item.getFilterType());
         filterOperateView.setOperateFilter(list);
-        filterAdapter.setSelectItem(position);
     }
 
     private void saveImage() {
@@ -181,7 +179,7 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
         }).flatMap(new Function<Bitmap, ObservableSource<Boolean>>() {
             @Override
             public ObservableSource<Boolean> apply(Bitmap bitmap) throws Exception {
-                return saveImage2(bitmap, "enhance_");
+                return saveImage2(bitmap, "filter_");
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -189,12 +187,12 @@ public class FilterActivity extends BaseActivity implements OnFilterItemClickLis
 
                     @Override
                     public void onNext(Boolean ret) {
-                        Toast.makeText(ImageEditApplication.getApplication(), "已保存至相册", Toast.LENGTH_SHORT).show();
+                        showSaveSuccessTip();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showSaveFailureTip();
                     }
 
                     @Override

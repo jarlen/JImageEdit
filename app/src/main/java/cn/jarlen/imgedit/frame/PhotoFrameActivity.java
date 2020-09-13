@@ -20,6 +20,7 @@ public class PhotoFrameActivity extends BaseActivity {
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("相框");
         BitmapFactory.Options mOption = new BitmapFactory.Options();
         mOption.inSampleSize = 1;
 

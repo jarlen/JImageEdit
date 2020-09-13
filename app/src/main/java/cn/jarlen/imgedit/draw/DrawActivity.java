@@ -59,6 +59,7 @@ public class DrawActivity extends BaseActivity implements ColorListAdapter.IColo
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("涂鸦");
         mPaintView = findViewById(R.id.custom_paint_view);
         findViewById(R.id.iv_toolbar_save).setOnClickListener(new View.OnClickListener() {
             @Override

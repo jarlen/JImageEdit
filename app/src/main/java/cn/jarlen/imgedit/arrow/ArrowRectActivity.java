@@ -24,6 +24,7 @@ public class ArrowRectActivity extends BaseActivity {
     @Override
     protected void onBindView(Bundle savedInstanceState) {
         rectangleAble = getIntent().getBooleanExtra(RECTANGLE_ABLE, false);
+        setToolbarTitle(rectangleAble ? "框选" : "箭头");
 
         mFrameLayout = findViewById(R.id.graffiti_container);
 

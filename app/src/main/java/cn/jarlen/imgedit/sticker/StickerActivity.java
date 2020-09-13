@@ -18,14 +18,15 @@ import java.util.concurrent.Callable;
 
 import cn.jarlen.imgedit.ImageEditApplication;
 import cn.jarlen.imgedit.R;
-import cn.jarlen.imgedit.adapter.VerticalDividerItemDecoration;
 import cn.jarlen.imgedit.base.BaseActivity;
 import cn.jarlen.imgedit.imagezoom.ImageViewTouch;
 import cn.jarlen.imgedit.imagezoom.ImageViewTouchBase;
 import cn.jarlen.imgedit.util.FileUtils;
 import cn.jarlen.imgedit.util.Matrix3;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -42,6 +43,7 @@ public class StickerActivity extends BaseActivity implements StickerAdapter.OnSt
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("贴纸");
         mainImage = findViewById(R.id.iv_image);
         mainImage.setDoubleTapEnabled(false);
         mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
@@ -53,7 +55,6 @@ public class StickerActivity extends BaseActivity implements StickerAdapter.OnSt
         pasterList = findViewById(R.id.rv_paster_list);
 
         pasterList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        pasterList.addItemDecoration(new VerticalDividerItemDecoration.Builder(this).size(9).build());
 
         stickerAdapter = new StickerAdapter(this);
         stickerAdapter.setPasterListener(this);
@@ -142,17 +143,23 @@ public class StickerActivity extends BaseActivity implements StickerAdapter.OnSt
                 }// end for
                 return resultBit;
             }
+        }).flatMap(new Function<Bitmap, ObservableSource<Boolean>>() {
+            @Override
+            public ObservableSource<Boolean> apply(Bitmap bitmap) throws Exception {
+                return saveImage2(bitmap, "sticker_");
+            }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<Bitmap>() {
+                .subscribe(new DisposableObserver<Boolean>() {
+
                     @Override
-                    public void onNext(Bitmap bitmap1) {
-                        saveImage(bitmap1, "sticker_");
+                    public void onNext(Boolean ret) {
+                        showSaveSuccessTip();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showSaveFailureTip();
                     }
 
                     @Override

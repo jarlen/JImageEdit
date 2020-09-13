@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:name=".ImageEditApplication"
@@ -20,7 +19,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".shape.ShapeCutActivity"></activity>
+        <activity
+            android:name=".shape.ShapeCutActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".blur.TouchBlurActivity"
             android:screenOrientation="portrait"

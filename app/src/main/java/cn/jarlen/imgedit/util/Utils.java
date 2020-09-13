@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.xiaopo.flying.photolayout.PuzzleActivity;
@@ -230,7 +231,9 @@ public class Utils {
                 .map(new Function<Bitmap, Boolean>() {
                     @Override
                     public Boolean apply(Bitmap bitmap) throws Exception {
-                        return FileUtils.saveBitmapToCamera(ImageEditApplication.getApplication(), bitmap, targetImageName);
+
+                        String filePath = FileUtils.saveBitmapToCamera(ImageEditApplication.getApplication(), bitmap, targetImageName);
+                        return !TextUtils.isEmpty(filePath);
                     }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -257,7 +260,8 @@ public class Utils {
                 .map(new Function<Bitmap, Boolean>() {
                     @Override
                     public Boolean apply(Bitmap bitmap) throws Exception {
-                        return FileUtils.saveBitmapToCamera(ImageEditApplication.getApplication(), bitmap, targetImageName);
+                        String filePath = FileUtils.saveBitmapToCamera(ImageEditApplication.getApplication(), bitmap, targetImageName);
+                        return !TextUtils.isEmpty(filePath);
                     }
                 });
     }

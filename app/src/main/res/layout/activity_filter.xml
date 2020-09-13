@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_win_color"
     android:orientation="vertical"
     tools:context=".filter.FilterActivity">
 
@@ -17,14 +18,11 @@
         android:layout_above="@+id/rv_list_filter"
         android:layout_below="@+id/layout_toolbar"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:background="#414358" />
+        android:layout_marginBottom="12dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_filter"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:background="#383C50" />
-
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
 import cn.jarlen.imgedit.util.FileUtils;
@@ -17,17 +15,10 @@ public class MosaicActivity extends BaseActivity implements View.OnClickListener
 
     Bitmap srcBitmap;
     private int mWidth, mHeight;
-    
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mosaic);
-
-
-    }
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("马赛克");
         mosaic = findViewById(R.id.mosaic);
         findViewById(R.id.tv_base).setOnClickListener(this);
         findViewById(R.id.tv_flower).setOnClickListener(this);

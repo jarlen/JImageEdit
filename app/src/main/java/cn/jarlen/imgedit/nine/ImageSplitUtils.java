@@ -8,6 +8,8 @@ import java.util.List;
 
 import cn.jarlen.imgedit.util.FileUtils;
 
+import static cn.jarlen.imgedit.util.FileUtils.DCIMCamera_PATH;
+
 public class ImageSplitUtils {
     /**
      * 裁剪图片为指定块数
@@ -15,7 +17,7 @@ public class ImageSplitUtils {
      * @param imageFilePath 要裁剪的图片路径
      * @param piece         切成piece*piece块
      */
-    public static List<ImagePiece> splitImage(String imageFilePath, int piece) {
+    public static List<ImagePiece> splitImage(String imageFilePath, int piece, String suffix) {
         Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
 
         List<ImagePiece> imagePieces = new ArrayList<ImagePiece>();
@@ -42,8 +44,8 @@ public class ImageSplitUtils {
 
                 Bitmap bit = Bitmap.createBitmap(bitmap, x + offsetX, y + offsetY,
                         pieceSize, pieceSize);
-                String name = "j_" + System.currentTimeMillis() + "_" + index + ".jpg";
-                String imgPath = FileUtils.saveFile(bit, FileUtils.getRootCacheFilePath(), name);
+                String name = suffix + System.currentTimeMillis() + "_" + index + ".jpg";
+                String imgPath = FileUtils.saveFile(bit, DCIMCamera_PATH, name);
                 imagePiece.setImgPath(imgPath);
                 imagePiece.setIndex(index);// 设置裁剪后的图片索引
                 imagePieces.add(imagePiece);

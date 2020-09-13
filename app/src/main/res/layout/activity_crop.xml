@@ -3,13 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_win_color"
     android:orientation="vertical"
     tools:context=".crop_rotate.CropRotateActivity">
 
-    <include
-        layout="@layout/layout_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
+    <include layout="@layout/layout_toolbar" />
 
     <com.theartofdev.edmodo.cropper.CropImageView
         android:id="@+id/cropImageView"

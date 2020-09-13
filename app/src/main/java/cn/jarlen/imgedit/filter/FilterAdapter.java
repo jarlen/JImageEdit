@@ -7,26 +7,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.jarlen.imgedit.R;
+import cn.jarlen.imgedit.base.OnAdapterItemClickListener;
 import cn.jarlen.imgedit.base.RvCommonAdapter;
 import cn.jarlen.imgedit.base.RvViewHolder;
 
 public class FilterAdapter extends RvCommonAdapter<FilterItem> {
 
-    OnFilterItemClickListener<FilterItem> clickListener;
-
-    private int mSelectItem = 0;
-
+    OnAdapterItemClickListener<FilterItem> clickListener;
+    
     public FilterAdapter(Context context) {
         super(context);
     }
 
-    public void setClickListener(OnFilterItemClickListener<FilterItem> clickListener) {
+    public void setClickListener(OnAdapterItemClickListener<FilterItem> clickListener) {
         this.clickListener = clickListener;
-    }
-
-    public void setSelectItem(int position) {
-        this.mSelectItem = position;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -37,21 +31,11 @@ public class FilterAdapter extends RvCommonAdapter<FilterItem> {
         ((TextView) viewHolder.getView(R.id.filterName)).setText(name);
 
         final int position = viewHolder.getLayoutPosition();
-        if (position == mSelectItem) {
-            viewHolder.getConvertView().setBackgroundDrawable(
-                    mContext.getResources().getDrawable(
-                            R.drawable.camera_shape_wm_item_selected));
-        } else {
-            viewHolder.getConvertView().setBackgroundDrawable(
-                    mContext.getResources().getDrawable(
-                            R.drawable.camera_shape_wm_item));
-        }
-
         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (clickListener != null) {
-                    clickListener.onFilterItemClick(item, position);
+                    clickListener.onItemClick(item, position);
                 }
             }
         });

@@ -27,6 +27,7 @@ public class WarpActivity extends BaseActivity {
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("变形");
         warpView = findViewById(R.id.view_warp);
 
         TextView resetBtn = findViewById(R.id.iv_toolbar_right_two);

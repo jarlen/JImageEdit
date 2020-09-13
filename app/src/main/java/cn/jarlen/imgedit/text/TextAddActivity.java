@@ -24,7 +24,9 @@ import cn.jarlen.imgedit.imagezoom.ImageViewTouchBase;
 import cn.jarlen.imgedit.util.ColorPicker;
 import cn.jarlen.imgedit.util.Matrix3;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -44,6 +46,7 @@ public class TextAddActivity extends BaseActivity implements TextWatcher {
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("文字");
         mainImage = findViewById(R.id.iv_image);
         mTextStickerView = findViewById(R.id.view_sticker_text);
         etInput = findViewById(R.id.et_input);
@@ -163,17 +166,23 @@ public class TextAddActivity extends BaseActivity implements TextWatcher {
                 canvas.restore();
                 return resultBit;
             }
+        }).flatMap(new Function<Bitmap, ObservableSource<Boolean>>() {
+            @Override
+            public ObservableSource<Boolean> apply(Bitmap bitmap) throws Exception {
+                return saveImage2(bitmap, "addText_");
+            }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<Bitmap>() {
+                .subscribe(new DisposableObserver<Boolean>() {
+
                     @Override
-                    public void onNext(Bitmap bitmap) {
-                        saveImage(bitmap, "text_add_");
+                    public void onNext(Boolean aBoolean) {
+                        showSaveSuccessTip();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showSaveFailureTip();
                     }
 
                     @Override
@@ -181,5 +190,6 @@ public class TextAddActivity extends BaseActivity implements TextWatcher {
 
                     }
                 });
+        ;
     }
 }

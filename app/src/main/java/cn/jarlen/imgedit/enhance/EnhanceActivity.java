@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.concurrent.Callable;
 
-import cn.jarlen.imgedit.ImageEditApplication;
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
 import cn.jarlen.imgedit.filter.WMFilterOperateView;
@@ -39,6 +37,7 @@ public class EnhanceActivity extends BaseActivity implements JarlenView.OnRulerS
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("增强");
         mWMFilterOperateView = findViewById(R.id.view_wm_filter_operate);
         mBitmapSrc = BitmapFactory.decodeFile(getImagePath());
 
@@ -195,12 +194,12 @@ public class EnhanceActivity extends BaseActivity implements JarlenView.OnRulerS
 
                     @Override
                     public void onNext(Boolean ret) {
-                        Toast.makeText(ImageEditApplication.getApplication(), "已保存至相册", Toast.LENGTH_SHORT).show();
+                        showSaveSuccessTip();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showSaveFailureTip();
                     }
 
                     @Override

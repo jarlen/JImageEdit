@@ -239,8 +239,8 @@ public class FileUtils {
      * @param name    保存的名字 可为null,就根据时间自定义一个文件名
      * @return 以“.jpg”格式保存至相册
      */
-    public static Boolean saveBitmapToCamera(Context context, Bitmap bm,
-                                             String name) {
+    public static String saveBitmapToCamera(Context context, Bitmap bm,
+                                            String name) {
 
         File file = null;
 
@@ -262,12 +262,12 @@ public class FileUtils {
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return false;
+            return "";
 
         } catch (IOException e) {
 
             e.printStackTrace();
-            return false;
+            return "";
         }
 
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -275,7 +275,7 @@ public class FileUtils {
         intent.setData(uri);
         context.sendBroadcast(intent);
 
-        return true;
+        return file.getAbsolutePath();
     }
 
     /**

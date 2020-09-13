@@ -27,7 +27,7 @@ public class CropRotateActivity extends BaseActivity {
     @Override
     protected void onBindView(Bundle savedInstanceState) {
         showOnlyRotate = getIntent().getBooleanExtra(IMAGE_SHOW_ONLY_ROTATE, false);
-
+        setToolbarTitle(showOnlyRotate ? "旋转" : "剪切");
         cropImageView = findViewById(R.id.cropImageView);
         findViewById(R.id.iv_toolbar_save).setOnClickListener(new View.OnClickListener() {
             @Override

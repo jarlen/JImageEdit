@@ -22,4 +22,8 @@
     <!-- 滤镜缩略图布局相关 -->
     <dimen name="filter_item_height">100dp</dimen>
     <dimen name="filter_item_width">75dp</dimen>
+
+    <dimen name="tool_bar_height">48dp</dimen>
+
+    <dimen name="bottom_menu_height">100dp</dimen>
 </resources>

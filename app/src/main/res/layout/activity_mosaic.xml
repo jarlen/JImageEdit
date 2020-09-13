@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_win_color"
     android:orientation="vertical">
 
     <include
@@ -11,13 +12,13 @@
     <cn.jarlen.imgedit.mosaic.DrawMosaicView
         android:id="@+id/mosaic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/bottom_menu_height"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -28,7 +29,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="基本"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
         <TextView
@@ -38,9 +39,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="花色"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="16sp" />
-        
+
         <TextView
             android:id="@+id/tv_eraser"
             android:layout_width="0dp"
@@ -48,7 +49,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="橡皮擦"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="16sp" />
     </LinearLayout>
 

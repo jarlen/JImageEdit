@@ -28,6 +28,7 @@ public class BgImageActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
+        setToolbarTitle("背景");
         layoutContainer = findViewById(R.id.layout_container);
         ivBg = findViewById(R.id.view_image_bg);
         ivPreview = findViewById(R.id.view_image_preview);
@@ -35,7 +36,7 @@ public class BgImageActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 Bitmap bitmap = FileUtils.getViewBitmap(layoutContainer);
-                saveImage(bitmap, "bgimg_");
+                saveImage(bitmap, "bgImg_");
             }
         });
 

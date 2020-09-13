@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_win_color"
     android:orientation="vertical"
     tools:context=".bgimg.BgImageActivity">
 
@@ -31,9 +32,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="@dimen/bottom_menu_height"
         android:gravity="center_vertical"
-        android:minHeight="58dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
