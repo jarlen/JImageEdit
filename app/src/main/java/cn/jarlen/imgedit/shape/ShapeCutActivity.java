@@ -24,7 +24,7 @@ public class ShapeCutActivity extends BaseActivity implements OnAdapterItemClick
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
-        setToolbarTitle("形状切图");
+        setToolbarTitle("形状");
         shapeCropView = findViewById(R.id.view_shape_cut);
         rvListShape = findViewById(R.id.rv_list_shape);
         LinearLayoutManager shapeLinearLayoutManager = new LinearLayoutManager(this);

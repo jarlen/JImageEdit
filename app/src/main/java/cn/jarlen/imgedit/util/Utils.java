@@ -123,7 +123,7 @@ public class Utils {
                 iconRes = R.drawable.ic_blur;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_SHAPE_CUT:
-                funcName = "形状切图";
+                funcName = "形状";
                 iconRes = R.drawable.ic_shape;
                 break;
             default:
