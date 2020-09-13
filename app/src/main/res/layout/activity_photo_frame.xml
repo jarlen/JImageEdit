@@ -14,52 +14,15 @@
         android:id="@+id/picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/photoResList"
+        android:layout_above="@+id/rv_list_frame"
         android:layout_below="@+id/layout_toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp" />
 
-    <HorizontalScrollView
-        android:id="@+id/photoResList"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_frame"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_menu_height"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp">
-
-        <LinearLayout
-            android:id="@+id/photoRes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/photoRes_one"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/frame_around1" />
-
-            <ImageView
-                android:id="@+id/photoRes_two"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/frame_around2" />
-
-            <ImageView
-                android:id="@+id/photoRes_three"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/frame_small1" />
-        </LinearLayout>
-    </HorizontalScrollView>
-
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

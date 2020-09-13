@@ -24,6 +24,7 @@ public class MainFuncAdapter extends RvCommonAdapter<MainFuncBean> {
         ImageView ivFuncIcon = viewHolder.getView(R.id.iv_main_func_icon);
         TextView tvFuncName = viewHolder.getView(R.id.tv_main_func_name);
         tvFuncName.setText(item.getFuncName());
+        ivFuncIcon.setImageResource(item.getIconRes());
         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

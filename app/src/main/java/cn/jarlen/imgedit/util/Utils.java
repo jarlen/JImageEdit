@@ -43,77 +43,99 @@ public class Utils {
         List<MainFuncBean> funcBeanList = new ArrayList<>();
         int[] mainFuncTypeArray = context.getResources().getIntArray(R.array.main_func_type);
         for (int index = 0; index < mainFuncTypeArray.length; index++) {
-            MainFuncBean funcBean = new MainFuncBean();
             int type = mainFuncTypeArray[index];
-            funcBean.setFuncType(type);
-            funcBean.setFuncName(convertFuncName(type));
+            MainFuncBean funcBean = convertFuncName(type);
             funcBeanList.add(funcBean);
         }
         return funcBeanList;
     }
 
-    private static String convertFuncName(int funcType) {
+    private static MainFuncBean convertFuncName(int funcType) {
         String funcName;
+        int iconRes = -1;
         switch (funcType) {
             case MainFuncBean.MAIN_FUNC_TYPE_CROP:
                 funcName = "剪切";
+                iconRes = R.drawable.ic_crop;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ROTATE:
                 funcName = "旋转";
+                iconRes = R.drawable.ic_rotate;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_PAINT:
                 funcName = "涂鸦";
+                iconRes = R.drawable.ic_paint;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_MOSAIC:
                 funcName = "马赛克";
+                iconRes = R.drawable.ic_mosaic;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_FRAME:
                 funcName = "相框";
+                iconRes = R.drawable.ic_photo_frame;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ARROW:
                 funcName = "箭头";
+                iconRes = R.drawable.ic_arrow;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_RECT:
                 funcName = "框选";
+                iconRes = R.drawable.ic_rect_select;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_NINE:
                 funcName = "九宫格";
+                iconRes = R.drawable.ic_nine;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_COMPRESS:
                 funcName = "压缩";
+                iconRes = R.drawable.ic_compress;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_STICKER:
                 funcName = "贴纸";
+                iconRes = R.drawable.ic_sticker;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ENHANCE:
                 funcName = "增强";
+                iconRes = R.drawable.ic_enhance;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_WARP:
                 funcName = "变形";
+                iconRes = R.drawable.ic_warp;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_FILTER:
                 funcName = "滤镜";
+                iconRes = R.drawable.ic_filter;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_ADD_TEXT:
                 funcName = "文字";
+                iconRes = R.drawable.ic_text;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_PUZZLE:
                 funcName = "拼图";
+                iconRes = R.drawable.ic_puzzle;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_BG_IMG:
                 funcName = "背景";
+                iconRes = R.drawable.ic_bg;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_BLUR_TOUCH:
                 funcName = "模糊";
+                iconRes = R.drawable.ic_blur;
                 break;
             case MainFuncBean.MAIN_FUNC_TYPE_SHAPE_CUT:
                 funcName = "形状切图";
+                iconRes = R.drawable.ic_shape;
                 break;
             default:
                 funcName = "测试";
                 break;
         }
-        return funcName;
+
+        MainFuncBean funcBean = new MainFuncBean();
+        funcBean.setFuncName(funcName);
+        funcBean.setFuncType(funcType);
+        funcBean.setIconRes(iconRes);
+        return funcBean;
     }
 
     public static void navigate2Func(Activity activity, MainFuncBean funcBean, String image) {

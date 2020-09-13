@@ -30,49 +30,11 @@
             android:layout_marginEnd="50dp" />
     </cn.jarlen.imgedit.bgimg.DragFrameLayout>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bg_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_menu_height"
-        android:gravity="center_vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
 
-        <TextView
-            android:id="@+id/btn_blur"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:text="模糊"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/btn_gezi_1"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/gezi_1" />
-
-        <ImageView
-            android:id="@+id/btn_gezi_2"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/gezi_2" />
-
-        <ImageView
-            android:id="@+id/btn_gezi_3"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/gezi_3" />
-
-    </LinearLayout>
 </LinearLayout>

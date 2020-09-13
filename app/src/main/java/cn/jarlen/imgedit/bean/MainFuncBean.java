@@ -28,6 +28,7 @@ public class MainFuncBean {
 
     private String funcName;
     private int funcType;
+    private int iconRes;
 
     public String getFuncName() {
         return funcName;
@@ -43,6 +44,14 @@ public class MainFuncBean {
 
     public void setFuncType(int funcType) {
         this.funcType = funcType;
+    }
+
+    public int getIconRes() {
+        return iconRes;
+    }
+
+    public void setIconRes(int iconRes) {
+        this.iconRes = iconRes;
     }
 
     @IntDef({MAIN_FUNC_TYPE_CROP,

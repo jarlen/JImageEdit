@@ -152,6 +152,21 @@ public class PhotoFrame {
     }
 
     /**
+     * Bitmap相框合成
+     *
+     * @return
+     */
+    public Bitmap combineFrameRes(Bitmap bitmap) {
+        Drawable[] array = new Drawable[2];
+        array[0] = new BitmapDrawable(mContext.getResources(), mBitmap);
+        Bitmap b = resize(bitmap, this.mBitmap.getWidth(),
+                this.mBitmap.getHeight());
+        array[1] = new BitmapDrawable(mContext.getResources(), b);
+        LayerDrawable layer = new LayerDrawable(array);
+        return drawableToBitmap(layer);
+    }
+
+    /**
      * @return 路径图片的合成相框
      */
     public Bitmap combineFramePathRes() {

@@ -6,40 +6,62 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
+import cn.jarlen.imgedit.base.OnAdapterItemClickListener;
 
-public class PhotoFrameActivity extends BaseActivity {
+import static cn.jarlen.imgedit.util.FileUtils.getImageFromAssetsFile;
+
+public class PhotoFrameActivity extends BaseActivity implements OnAdapterItemClickListener<String> {
 
     ImageView picture;
     Bitmap mBitmap, mTmpBmp;
-
     PhotoFrame mImageFrame;
 
-    PhotoFrameOnClickListener frameOnClickListener;
+    RecyclerView rvListFrame;
+    PhotoFrameAdapter frameAdapter;
 
     @Override
     protected void onBindView(Bundle savedInstanceState) {
         setToolbarTitle("相框");
-        BitmapFactory.Options mOption = new BitmapFactory.Options();
-        mOption.inSampleSize = 1;
-
-        mBitmap = BitmapFactory.decodeFile(getImagePath(), mOption);
-        mTmpBmp = mBitmap;
         picture = (ImageView) findViewById(R.id.picture);
-        frameOnClickListener = new PhotoFrameOnClickListener();
-
-        findViewById(R.id.photoRes_one).setOnClickListener(frameOnClickListener);
-        findViewById(R.id.photoRes_two).setOnClickListener(frameOnClickListener);
-        findViewById(R.id.photoRes_three).setOnClickListener(frameOnClickListener);
-        reset();
-        mImageFrame = new PhotoFrame(this, mBitmap);
+        rvListFrame = findViewById(R.id.rv_list_frame);
         findViewById(R.id.iv_toolbar_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveImage(mTmpBmp, "frame_");
             }
         });
+
+        LinearLayoutManager shapeLinearLayoutManager = new LinearLayoutManager(this);
+        shapeLinearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        rvListFrame.setLayoutManager(shapeLinearLayoutManager);
+        frameAdapter = new PhotoFrameAdapter(this);
+        frameAdapter.setAdapterItemClickListener(this);
+        rvListFrame.setAdapter(frameAdapter);
+
+        mBitmap = BitmapFactory.decodeFile(getImagePath());
+        mTmpBmp = mBitmap;
+
+        reset();
+        mImageFrame = new PhotoFrame(this, mBitmap);
+
+        frameAdapter.addDataList(getPhotoFrameData());
+    }
+
+    private List<String> getPhotoFrameData() {
+        List<String> frameList = new ArrayList<>();
+        for (int index = 1; index <= 18; index++) {
+            String frameName = "PhotoFrame/pf_xg" + index + ".png";
+            frameList.add(frameName);
+        }
+        return frameList;
     }
 
     @Override
@@ -47,48 +69,12 @@ public class PhotoFrameActivity extends BaseActivity {
         return R.layout.activity_photo_frame;
     }
 
-
-    private class PhotoFrameOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.photoRes_one:
-                    mImageFrame.setFrameType(PhotoFrame.FRAME_SMALL);
-                    mImageFrame.setFrameResources(
-                            R.drawable.frame_around1_left_top,
-                            R.drawable.frame_around1_left,
-                            R.drawable.frame_around1_left_bottom,
-                            R.drawable.frame_around1_bottom,
-                            R.drawable.frame_around1_right_bottom,
-                            R.drawable.frame_around1_right,
-                            R.drawable.frame_around1_right_top,
-                            R.drawable.frame_around1_top);
-                    mTmpBmp = mImageFrame.combineFrameRes();
-                    break;
-                case R.id.photoRes_two:
-                    mImageFrame.setFrameType(PhotoFrame.FRAME_SMALL);
-                    mImageFrame.setFrameResources(
-                            R.drawable.frame_around2_left_top,
-                            R.drawable.frame_around2_left,
-                            R.drawable.frame_around2_left_bottom,
-                            R.drawable.frame_around2_bottom,
-                            R.drawable.frame_around2_right_bottom,
-                            R.drawable.frame_around2_right,
-                            R.drawable.frame_around2_right_top,
-                            R.drawable.frame_around2_top);
-                    mTmpBmp = mImageFrame.combineFrameRes();
-                    break;
-                case R.id.photoRes_three:
-                    mImageFrame.setFrameType(PhotoFrame.FRAME_BIG);
-                    mImageFrame.setFrameResources(R.drawable.frame_big1);
-                    mTmpBmp = mImageFrame.combineFrameRes();
-                    break;
-                default:
-                    break;
-            }
-            reset();
-        }
+    @Override
+    public void onItemClick(String item, int position) {
+        mImageFrame.setFrameType(PhotoFrame.FRAME_BIG);
+        Bitmap bitmap = getImageFromAssetsFile(item);
+        mTmpBmp = mImageFrame.combineFrameRes(bitmap);
+        reset();
     }
 
     /**

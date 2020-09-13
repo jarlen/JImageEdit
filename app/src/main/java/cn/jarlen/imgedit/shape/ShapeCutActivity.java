@@ -49,7 +49,6 @@ public class ShapeCutActivity extends BaseActivity implements OnAdapterItemClick
 
     private List<Integer> getShapeData() {
         List<Integer> shapeData = new ArrayList<>();
-        shapeData.add(R.drawable.shape_apple);
         shapeData.add(R.drawable.shape_bear);
         shapeData.add(R.drawable.shape_butterfly);
         shapeData.add(R.drawable.shape_circle);

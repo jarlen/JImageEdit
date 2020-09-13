@@ -99,6 +99,22 @@ public class ShapeCropView extends View {
         invalidate();
     }
 
+    public void setMaskPath(String maskPath) {
+        Bitmap mMaskBit = BitmapFactory.decodeFile(maskPath);
+        if (mMaskBit == null) {
+            return;
+        }
+        maskDrawable = new BitmapDrawable(mContext.getResources(), mMaskBit);
+
+        int left = 0;
+        int top = 0;
+        int right = mViewWidth;
+        int bottom = mViewHeight;
+        mMaskDrawableRect.set(left, top, right, bottom);
+        maskDrawable.setBounds(mMaskDrawableRect);
+        invalidate();
+    }
+
     public void setBackGroundBitMap(Bitmap bgBit) {
         /**
          * 背景部分，也就是上面的图形
