@@ -181,34 +181,34 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         });
 
-        ImageView btnMore = (ImageView) findViewById(R.id.btn_more);
-        btnMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showMoreDialog(view);
-            }
-        });
+//        ImageView btnMore = (ImageView) findViewById(R.id.btn_more);
+//        btnMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showMoreDialog(view);
+//            }
+//        });
     }
 
-    private void showMoreDialog(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view, Gravity.BOTTOM);
-        popupMenu.inflate(R.menu.menu_main);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_playground) {
-                    Intent intent = new Intent(PuzzleActivity.this, PlaygroundActivity.class);
-                    startActivity(intent);
-                }
-//                else if (itemId == R.id.action_about) {
-//                    showAboutInfo();
+//    private void showMoreDialog(View view) {
+//        PopupMenu popupMenu = new PopupMenu(this, view, Gravity.BOTTOM);
+//        popupMenu.inflate(R.menu.menu_main);
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                int itemId = item.getItemId();
+//                if (itemId == R.id.action_playground) {
+////                    Intent intent = new Intent(PuzzleActivity.this, PlaygroundActivity.class);
+////                    startActivity(intent);
 //                }
-                return false;
-            }
-        });
-        popupMenu.show();
-    }
+////                else if (itemId == R.id.action_about) {
+////                    showAboutInfo();
+////                }
+//                return false;
+//            }
+//        });
+//        popupMenu.show();
+//    }
 
 //    private void showAboutInfo() {
 //        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);

@@ -1,7 +1,6 @@
 package com.xiaopo.flying.photolayout;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 import com.xiaopo.flying.puzzle.PuzzleLayout;
 import com.xiaopo.flying.puzzle.slant.SlantPuzzleLayout;
 
@@ -24,23 +21,23 @@ public class PlaygroundActivity extends AppCompatActivity {
 
         initView();
 
-        prefetchResPhoto();
+//        prefetchResPhoto();
     }
 
-    private void prefetchResPhoto() {
-        final int[] resIds = new int[]{
-                R.drawable.demo1, R.drawable.demo2, R.drawable.demo3, R.drawable.demo4, R.drawable.demo5,
-                R.drawable.demo6, R.drawable.demo7, R.drawable.demo8, R.drawable.demo9,
-        };
-
-        for (int resId : resIds) {
-            Picasso.with(this)
-                    .load(resId)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .config(Bitmap.Config.RGB_565)
-                    .fetch();
-        }
-    }
+//    private void prefetchResPhoto() {
+//        final int[] resIds = new int[]{
+//                R.drawable.demo1, R.drawable.demo2, R.drawable.demo3, R.drawable.demo4, R.drawable.demo5,
+//                R.drawable.demo6, R.drawable.demo7, R.drawable.demo8, R.drawable.demo9,
+//        };
+//
+//        for (int resId : resIds) {
+//            Picasso.with(this)
+//                    .load(resId)
+//                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+//                    .config(Bitmap.Config.RGB_565)
+//                    .fetch();
+//        }
+//    }
 
     private void initView() {
         final RecyclerView puzzleList = (RecyclerView) findViewById(R.id.puzzle_list);

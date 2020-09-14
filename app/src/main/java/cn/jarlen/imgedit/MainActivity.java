@@ -114,11 +114,9 @@ public class MainActivity extends AppCompatActivity implements MainFuncAdapter.O
             } else {
                 picturePath = originalUri.getPath();
             }
-//            Toast.makeText(this, "选择成功 " + picturePath, Toast.LENGTH_SHORT).show();
             Utils.navigate2Func(this, funcBean, picturePath);
         } else if (requestCode == PHOTO_PICKED_WITH_DATA_AFTER_KIKAT) {
             String picturePath = FileUtils.getPath(this, data.getData());
-//            Toast.makeText(this, "选择成功 " + picturePath, Toast.LENGTH_SHORT).show();
             Utils.navigate2Func(this, funcBean, picturePath);
         }
     }

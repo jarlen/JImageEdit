@@ -74,10 +74,6 @@ public class ProcessActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void loadPhoto() {
-        if (bitmapPaint == null) {
-            loadPhotoFromRes();
-            return;
-        }
 
         final List<Bitmap> pieces = new ArrayList<>();
 
@@ -118,51 +114,6 @@ public class ProcessActivity extends AppCompatActivity implements View.OnClickLi
                     .centerInside()
                     .config(Bitmap.Config.RGB_565)
                     .into(target);
-
-            targets.add(target);
-        }
-    }
-
-    private void loadPhotoFromRes() {
-        final List<Bitmap> pieces = new ArrayList<>();
-
-        final int[] resIds = new int[]{
-                R.drawable.demo1, R.drawable.demo2, R.drawable.demo3, R.drawable.demo4, R.drawable.demo5,
-                R.drawable.demo6, R.drawable.demo7, R.drawable.demo8, R.drawable.demo9,
-        };
-
-        final int count =
-                resIds.length > puzzleLayout.getAreaCount() ? puzzleLayout.getAreaCount() : resIds.length;
-
-        for (int i = 0; i < count; i++) {
-            final Target target = new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    pieces.add(bitmap);
-                    if (pieces.size() == count) {
-                        if (resIds.length < puzzleLayout.getAreaCount()) {
-                            for (int i = 0; i < puzzleLayout.getAreaCount(); i++) {
-                                puzzleView.addPiece(pieces.get(i % count));
-                            }
-                        } else {
-                            puzzleView.addPieces(pieces);
-                        }
-                    }
-                    targets.remove(this);
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            };
-
-            Picasso.with(this).load(resIds[i]).config(Bitmap.Config.RGB_565).into(target);
 
             targets.add(target);
         }
