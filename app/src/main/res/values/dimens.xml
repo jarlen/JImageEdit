@@ -1,19 +1,8 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="common_widget_toolbar_height">48dp</dimen>
-    <dimen name="common_widget_toolbar_title_button_padding">16dp</dimen>
-    <dimen name="common_widget_toolbar_title_text_icon_button_padding">0dp</dimen>
-    <dimen name="common_widget_toolbar_button_left_padding">16dp</dimen>
-    <dimen name="common_widget_toolbar_title_text_size">18sp</dimen>
-    <dimen name="common_widget_content_dialog_title_text_size">16sp</dimen>
-    <dimen name="common_widget_content_dialog_content_text_size">15sp</dimen>
-    <dimen name="common_widget_toolbar_title_button_text_size">14sp</dimen>
-    <dimen name="common_widget_divider_height">0.5dp</dimen>
-    <dimen name="common_widget_home_widget_toolbar_title_text_size">20sp</dimen>
+
 
     <dimen name="materialcolorpicker__activity_horizontal_margin">16dp</dimen>
     <dimen name="materialcolorpicker__activity_vertical_margin">16dp</dimen>
-    <dimen name="carmera_imagecrop_float_top">3dp</dimen>
 
     <!-- 身体变形 -->
     <dimen name="max_dist">40dip</dimen>
@@ -22,8 +11,6 @@
     <!-- 滤镜缩略图布局相关 -->
     <dimen name="filter_item_height">100dp</dimen>
     <dimen name="filter_item_width">75dp</dimen>
-
-    <dimen name="tool_bar_height">48dp</dimen>
 
     <dimen name="bottom_menu_height">100dp</dimen>
 </resources>

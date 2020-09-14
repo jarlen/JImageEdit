@@ -11,10 +11,13 @@ android {
         versionName "1.0"
         renderscriptTargetApi 28
         renderscriptSupportModeEnabled true
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -9,16 +9,26 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
+import cn.jarlen.imgedit.ImageEditApplication;
 import cn.jarlen.imgedit.R;
 import cn.jarlen.imgedit.base.BaseActivity;
 import cn.jarlen.imgedit.base.OnAdapterItemClickListener;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static cn.jarlen.imgedit.util.FileUtils.getImageFromAssetsFile;
 
 public class PhotoFrameActivity extends BaseActivity implements OnAdapterItemClickListener<String> {
+
+
+    public static final String PHOTO_FRAME_FLODER = "PhotoFrame";
 
     ImageView picture;
     Bitmap mBitmap, mTmpBmp;
@@ -51,17 +61,42 @@ public class PhotoFrameActivity extends BaseActivity implements OnAdapterItemCli
 
         reset();
         mImageFrame = new PhotoFrame(this, mBitmap);
-
-        frameAdapter.addDataList(getPhotoFrameData());
+        getPhotoFrameData();
     }
 
-    private List<String> getPhotoFrameData() {
-        List<String> frameList = new ArrayList<>();
-        for (int index = 1; index <= 18; index++) {
-            String frameName = "PhotoFrame/pf_xg" + index + ".png";
-            frameList.add(frameName);
-        }
-        return frameList;
+    private void getPhotoFrameData() {
+
+        Observable.fromCallable(new Callable<List<String>>() {
+            @Override
+            public List<String> call() throws Exception {
+                String[] frameArray = ImageEditApplication.getApplication().getAssets().list(PHOTO_FRAME_FLODER);
+                int count = frameArray.length;
+                List<String> frameList = new ArrayList<>();
+                for (int index = 0; index < count; index++) {
+                    String frameName = PHOTO_FRAME_FLODER + File.separator + frameArray[index];
+                    frameList.add(frameName);
+                }
+                return frameList;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<List<String>>() {
+
+                    @Override
+                    public void onNext(List<String> strings) {
+                        frameAdapter.addDataList(strings);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @Override
