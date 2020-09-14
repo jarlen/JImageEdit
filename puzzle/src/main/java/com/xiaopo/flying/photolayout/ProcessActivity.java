@@ -153,7 +153,7 @@ public class ProcessActivity extends AppCompatActivity implements View.OnClickLi
             @SuppressLint("WrongConstant")
             @Override
             public void onPieceSelected(PuzzlePiece piece, int position) {
-                Snackbar.make(puzzleView, "Piece " + position + " selected", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(puzzleView, "第 " + position + " 个被选中", Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -301,7 +301,7 @@ public class ProcessActivity extends AppCompatActivity implements View.OnClickLi
                 @SuppressLint("WrongConstant")
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-                    Snackbar.make(puzzleView, "Replace Failed!", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(puzzleView, "替换失败", Snackbar.LENGTH_SHORT).show();
                 }
 
                 @Override
