@@ -23,12 +23,12 @@
 
         <activity
             android:name=".PuzzleActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ProcessActivity"
-            android:label="@string/title_activity_process"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PlaygroundActivity"
+        <activity
+            android:name=".PlaygroundActivity"
             android:screenOrientation="portrait">
 
         </activity>

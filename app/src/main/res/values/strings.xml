@@ -1,11 +1,5 @@
 <resources>
     <string name="app_name">JImageEdit</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="no_images">no found the image</string>
-
-    <string name="materialcolorpicker__app_name">Android Material Color Picker Dialog</string>
-    <string name="materialcolorpicker__descLib">Material Color Picker Dialog</string>
-    <string name="materialcolorpicker__errHex">Hex Code Format incorrect</string>
-    <string name="materialcolorpicker__inputColor">Color:</string>
-    <string name="materialcolorpicker__btnSelectColor">Select</string>
+    <string name="materialcolorpicker__errHex">颜色值格式不正确</string>
+    <string name="materialcolorpicker__btnSelectColor">确定</string>
 </resources>
