@@ -12,7 +12,7 @@ public class ImageEditApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
-        CrashReport.initCrashReport(getApplicationContext(), "adfdeef7c7", true);
+        CrashReport.initCrashReport(getApplicationContext(), "9a08c3dd3a", true);
     }
 
     public static Application getApplication() {

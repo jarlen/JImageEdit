@@ -4,11 +4,11 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "cn.jarlen.imgedit"
+        applicationId "cn.jarlen.imagedit"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         renderscriptTargetApi 28
         renderscriptSupportModeEnabled true
         ndk {

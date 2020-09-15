@@ -1,6 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">拼图</string>
-
     <string name="about_me">关于我</string>
     <string name="my_info">一名普通的大学生，喜欢Android，喜欢探索新鲜事物。希望以后可以找到一个好工作。恩，加油。有问题可以给我发邮件或者提issue，当然也欢迎PR，互相学习进步。\n\n
         wupanjie0611@gmail.com
