@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.List;
 
 import cn.jarlen.imgedit.adapter.MainFuncAdapter;
@@ -30,21 +33,16 @@ public class MainActivity extends AppCompatActivity implements MainFuncAdapter.O
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    /* 用来标识请求gallery的activity */
-    public static final int PHOTO_PICKED_WITH_DATA = 3021;
-    public static final int PHOTO_PICKED_WITH_DATA_AFTER_KIKAT = 3022;
-
-    public static final int TAKE_PHOTO_CODE = 8;
-    public static final int REQUEST_TAKE_PHOTO_PERMISSION = 9;
     public static final int PERMISSIONS = 7;
 
     String picturePath;
 
-    AlertDialog mAlertDialog;
     MainFuncBean funcBean;
 
     private RecyclerView mainList;
     private MainFuncAdapter funcAdapter;
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements MainFuncAdapter.O
         if (!EasyPermissions.hasPermissions(MainActivity.this, permissions)) {
             EasyPermissions.requestPermissions(new PermissionRequest.Builder(MainActivity.this, PERMISSIONS, permissions).build());
         }
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

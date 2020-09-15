@@ -20,6 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8533949888426436~2215519128"/>
+
         <activity
             android:name=".shape.ShapeCutActivity"
             android:screenOrientation="portrait"
