@@ -3,6 +3,8 @@ package cn.jarlen.imgedit.base;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 
 import cn.jarlen.imgedit.R;
+import cn.jarlen.imgedit.util.AdUtils;
 import cn.jarlen.imgedit.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -40,6 +43,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tv_title);
         setToolbarTitle("测试");
         onBindView(savedInstanceState);
+
+        ViewGroup contentView = findViewById(android.R.id.content);
+        RelativeLayout adContainerView = new RelativeLayout(this);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        adContainerView.setLayoutParams(layoutParams);
+        contentView.addView(adContainerView);
+        AdUtils.loadBanner(this, adContainerView, true);
     }
 
     protected void setToolbarTitle(CharSequence title) {

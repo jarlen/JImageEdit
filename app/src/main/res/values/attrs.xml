@@ -53,5 +53,16 @@
         <item>Sagittarius</item>
     </string-array>
 
+    <string-array name="ad_unid_array">
+        <item>ca-app-pub-8533949888426436/5881217807</item>
+        <item>ca-app-pub-8533949888426436/8124237766</item>
+        <item>ca-app-pub-8533949888426436/1558829415</item>
+        <item>ca-app-pub-8533949888426436/2023871453</item>
+        <item>ca-app-pub-8533949888426436/5771620751</item>
+        <item>ca-app-pub-8533949888426436/8397708112</item>
+        <item>ca-app-pub-8533949888426436/6969092286</item>
+        <item>ca-app-pub-8533949888426436/8369787955</item>
+    </string-array>
+
 
 </resources>

@@ -33,6 +33,12 @@ configurations.all {
         }
     }
 }
+android.applicationVariants.all {
+    variant ->
+        variant.outputs.all {
+            output -> outputFileName = "image-edit-${versionName}.apk"
+        }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

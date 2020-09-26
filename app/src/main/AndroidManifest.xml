@@ -13,17 +13,26 @@
     <application
         android:name=".ImageEditApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_logo"
+        android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_logo_round"
+        android:roundIcon="@drawable/ic_logo_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
+        <activity
+            android:name=".StartUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8533949888426436~2215519128"/>
+            android:value="ca-app-pub-8533949888426436~2215519128" />
 
         <activity
             android:name=".shape.ShapeCutActivity"
@@ -61,16 +70,12 @@
             android:name=".compress.CompressActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            tools:ignore="LockedOrientationActivity" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".crop_rotate.CropRotateActivity"
             android:screenOrientation="portrait"
